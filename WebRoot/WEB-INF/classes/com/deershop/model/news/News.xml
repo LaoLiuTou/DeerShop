@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.news.INewsMapper"> 
+	<select id="selectnewsById" parameterType="String" resultType="News">
+		SELECT a.*
+		FROM news a 
+		LEFT JOIN user b ON a.c_id=b.id 
+		WHERE a.ID=#{id}
+	</select>
+
+	<delete id="deletenews" parameterType="String"> 
+		DELETE FROM news WHERE ID=#{id}
+	</delete>
+
+	<select id="selectnewsByParam" parameterType="java.util.Map" resultType="News">
+		SELECT a.*,b.nickname as c_name 
+		FROM news a 
+		LEFT JOIN user b ON a.c_id=b.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="title != null"> AND a.TITLE like #{title} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="comments != null"> AND a.COMMENTS =#{comments} </if>
+			<if test="sort != null"> AND a.SORT =#{sort} </if>
+			<if test="publish_dtFrom != null"> AND unix_timestamp(a.PUBLISH_DT) &gt;=unix_timestamp(#{publish_dtFrom}) </if>
+			<if test="publish_dtTo != null"> AND unix_timestamp(a.PUBLISH_DT) &lt;=unix_timestamp(#{publish_dtTo}) </if>
+			<if test="publish_dt != null"> AND a.PUBLISH_DT =#{publish_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND a.PAGEVIEWS =#{pageviews} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountnewsByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(ID) 
+		FROM news 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="title != null"> AND TITLE like #{title} </if>
+			<if test="img != null"> AND IMG =#{img} </if>
+			<if test="comments != null"> AND COMMENTS =#{comments} </if>
+			<if test="sort != null"> AND SORT =#{sort} </if>
+			<if test="publish_dtFrom != null"> AND unix_timestamp(PUBLISH_DT) &gt;=unix_timestamp(#{publish_dtFrom}) </if>
+			<if test="publish_dtTo != null"> AND unix_timestamp(PUBLISH_DT) &lt;=unix_timestamp(#{publish_dtTo}) </if>
+			<if test="publish_dt != null"> AND PUBLISH_DT =#{publish_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND PAGEVIEWS =#{pageviews} </if>
+		</trim>  
+	</select>
+
+	<update id="updatenews" parameterType="News">
+		UPDATE news 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="title != null">TITLE=#{title}, </if>
+			<if test="img != null">IMG=#{img}, </if>
+			<if test="comments != null">COMMENTS=#{comments}, </if>
+			<if test="sort != null">SORT=#{sort}, </if>
+			<if test="publish_dt != null">PUBLISH_DT=#{publish_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="pageviews != null">PAGEVIEWS=${pageviews}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addnews" parameterType="News" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO news 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="title != null">TITLE, </if>
+			<if test="img != null">IMG, </if>
+			<if test="comments != null">COMMENTS, </if>
+			<if test="sort != null">SORT, </if>
+			<if test="publish_dt != null">PUBLISH_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="pageviews != null">PAGEVIEWS, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="title != null">#{title}, </if>
+			<if test="img != null">#{img}, </if>
+			<if test="comments != null">#{comments}, </if>
+			<if test="sort != null">#{sort}, </if>
+			<if test="publish_dt != null">#{publish_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="pageviews != null">#{pageviews}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdnews" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO news 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.title != null">TITLE, </if>
+				<if test="item.img != null">IMG, </if>
+				<if test="item.comments != null">COMMENTS, </if>
+				<if test="item.sort != null">SORT, </if>
+				<if test="item.publish_dt != null">PUBLISH_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.pageviews != null">PAGEVIEWS, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.title != null">#{item.title}, </if>
+				<if test="item.img != null">#{item.img}, </if>
+				<if test="item.comments != null">#{item.comments}, </if>
+				<if test="item.sort != null">#{item.sort}, </if>
+				<if test="item.publish_dt != null">#{item.publish_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.pageviews != null">#{item.pageviews}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

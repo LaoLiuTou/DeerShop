@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.order_num.IOrder_numMapper"> 
+	<select id="selectorder_numById" parameterType="String" resultType="Order_num">
+		SELECT * FROM order_num WHERE ID=#{id}
+	</select>
+
+	<delete id="deleteorder_num" parameterType="String"> 
+		DELETE FROM order_num WHERE ID=#{id}
+	</delete>
+
+	<select id="selectorder_numByParam" parameterType="java.util.Map" resultType="Order_num">
+		SELECT *
+		FROM order_num
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="num != null"> AND NUM =#{num} </if>
+			<if test="type != null"> AND TYPE =#{type} </if>
+			<if test="c_dtFrom != null"> AND unix_timestamp(C_DT) &gt;=unix_timestamp(#{c_dtFrom}) </if>
+			<if test="c_dtTo != null"> AND unix_timestamp(C_DT) &lt;=unix_timestamp(#{c_dtTo}) </if>
+			<if test="c_dt != null"> AND C_DT =#{c_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND DATE_FORMAT(UP_DT,'%Y-%m-%d') = DATE_FORMAT(#{up_dt},'%Y-%m-%d') </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountorder_numByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM order_num 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="num != null"> AND NUM =#{num} </if>
+			<if test="type != null"> AND TYPE =#{type} </if>
+			<if test="c_dtFrom != null"> AND unix_timestamp(C_DT) &gt;=unix_timestamp(#{c_dtFrom}) </if>
+			<if test="c_dtTo != null"> AND unix_timestamp(C_DT) &lt;=unix_timestamp(#{c_dtTo}) </if>
+			<if test="c_dt != null"> AND C_DT =#{c_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND DATE_FORMAT(UP_DT,'%Y-%m-%d') = DATE_FORMAT(#{up_dt},'%Y-%m-%d') </if>
+		</trim>  
+	</select>
+
+	<update id="updateorder_num" parameterType="Order_num">
+		UPDATE order_num 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="type != null">TYPE=#{type}, </if>
+			<if test="num != null">NUM=#{num}, </if>
+			<if test="c_dt != null">C_DT=#{c_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addorder_num" parameterType="Order_num" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO order_num 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="type != null">TYPE, </if>
+			<if test="num != null">NUM, </if>
+			<if test="c_dt != null">C_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="type != null">#{type}, </if>
+			<if test="num != null">#{num}, </if>
+			<if test="c_dt != null">#{c_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdorder_num" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO order_num 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.type != null">TYPE, </if>
+				<if test="item.num != null">NUM, </if>
+				<if test="item.c_dt != null">C_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.type != null">#{item.type}, </if>
+				<if test="item.num != null">#{item.num}, </if>
+				<if test="item.c_dt != null">#{item.c_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

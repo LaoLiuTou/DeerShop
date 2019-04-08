@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- <setting name="logImpl" value="STDOUT_LOGGING"/> -->
+		<setting name="logImpl" value="LOG4J"/>
+		<setting name="cacheEnabled" value="true"/> 
+		<setting name="lazyLoadingEnabled" value="true"/> 
+		<setting name="multipleResultSetsEnabled" value="true"/> 
+		<setting name="useColumnLabel" value="true"/> 
+		<setting name="useGeneratedKeys" value="false"/> 
+		<setting name="autoMappingBehavior" value="PARTIAL"/> 
+		<setting name="defaultExecutorType" value="SIMPLE"/> 
+		<setting name="defaultStatementTimeout" value="25"/> 
+		<setting name="safeRowBoundsEnabled" value="false"/> 
+		<setting name="mapUnderscoreToCamelCase" value="false"/> 
+		<setting name="localCacheScope" value="SESSION"/> 
+		<setting name="jdbcTypeForNull" value="OTHER"/> 
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/> 
+	</settings> 
+	<typeAliases>
+		<typeAlias alias="Area" type="com.deershop.model.area.Area" /> 
+		<typeAlias alias="Buyer" type="com.deershop.model.buyer.Buyer" /> 
+		<typeAlias alias="Buyer_addr" type="com.deershop.model.buyer_addr.Buyer_addr" /> 
+		<typeAlias alias="Cart" type="com.deershop.model.cart.Cart" /> 
+		<typeAlias alias="Complain" type="com.deershop.model.complain.Complain" /> 
+		<typeAlias alias="Discount" type="com.deershop.model.discount.Discount" /> 
+		<typeAlias alias="Evaluate" type="com.deershop.model.evaluate.Evaluate" /> 
+		<typeAlias alias="Full_discount" type="com.deershop.model.full_discount.Full_discount" /> 
+		<typeAlias alias="Goods" type="com.deershop.model.goods.Goods" /> 
+		<typeAlias alias="Goods_category" type="com.deershop.model.goods_category.Goods_category" /> 
+		<typeAlias alias="Goods_message" type="com.deershop.model.goods_message.Goods_message" /> 
+		<typeAlias alias="News" type="com.deershop.model.news.News" /> 
+		<typeAlias alias="Order_item" type="com.deershop.model.order_item.Order_item" /> 
+		<typeAlias alias="Orders" type="com.deershop.model.orders.Orders" /> 
+		<typeAlias alias="Postage" type="com.deershop.model.postage.Postage" /> 
+		<typeAlias alias="Promotion_code" type="com.deershop.model.promotion_code.Promotion_code" /> 
+		<typeAlias alias="R_buyer_promotion" type="com.deershop.model.r_buyer_promotion.R_buyer_promotion" /> 
+		<typeAlias alias="R_goods_discount" type="com.deershop.model.r_goods_discount.R_goods_discount" /> 
+		<typeAlias alias="R_goods_full" type="com.deershop.model.r_goods_full.R_goods_full" /> 
+		<typeAlias alias="R_goods_promotion" type="com.deershop.model.r_goods_promotion.R_goods_promotion" /> 
+		<typeAlias alias="R_news_goods" type="com.deershop.model.r_news_goods.R_news_goods" /> 
+		<typeAlias alias="Returns" type="com.deershop.model.returns.Returns" /> 
+		<typeAlias alias="Save" type="com.deershop.model.save.Save" /> 
+		<typeAlias alias="Seller" type="com.deershop.model.seller.Seller" /> 
+		<typeAlias alias="Send" type="com.deershop.model.send.Send" /> 
+		<typeAlias alias="System_message" type="com.deershop.model.system_message.System_message" /> 
+		<typeAlias alias="Banner" type="com.deershop.model.banner.Banner" /> 
+		<typeAlias alias="User" type="com.deershop.model.user.User" /> 
+		<typeAlias alias="Order_num" type="com.deershop.model.order_num.Order_num" /> 
+		<typeAlias alias="Pay" type="com.deershop.model.pay.Pay" /> 
+		<typeAlias alias="Lov" type="com.deershop.model.lov.Lov" /> 
+		<typeAlias alias="Cash_apply" type="com.deershop.model.cash_apply.Cash_apply" /> 
+		<typeAlias alias="Seller_card" type="com.deershop.model.seller_card.Seller_card" /> 
+		<typeAlias alias="Income_dtl" type="com.deershop.model.income_dtl.Income_dtl" /> 
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/deershop/model/area/Area.xml"/> 
+		<mapper resource="com/deershop/model/buyer/Buyer.xml"/> 
+		<mapper resource="com/deershop/model/buyer_addr/Buyer_addr.xml"/> 
+		<mapper resource="com/deershop/model/cart/Cart.xml"/> 
+		<mapper resource="com/deershop/model/complain/Complain.xml"/> 
+		<mapper resource="com/deershop/model/discount/Discount.xml"/> 
+		<mapper resource="com/deershop/model/evaluate/Evaluate.xml"/> 
+		<mapper resource="com/deershop/model/full_discount/Full_discount.xml"/> 
+		<mapper resource="com/deershop/model/goods/Goods.xml"/> 
+		<mapper resource="com/deershop/model/goods_category/Goods_category.xml"/> 
+		<mapper resource="com/deershop/model/goods_message/Goods_message.xml"/> 
+		<mapper resource="com/deershop/model/news/News.xml"/> 
+		<mapper resource="com/deershop/model/order_item/Order_item.xml"/> 
+		<mapper resource="com/deershop/model/orders/Orders.xml"/> 
+		<mapper resource="com/deershop/model/postage/Postage.xml"/> 
+		<mapper resource="com/deershop/model/promotion_code/Promotion_code.xml"/> 
+		<mapper resource="com/deershop/model/r_buyer_promotion/R_buyer_promotion.xml"/> 
+		<mapper resource="com/deershop/model/r_goods_discount/R_goods_discount.xml"/> 
+		<mapper resource="com/deershop/model/r_goods_full/R_goods_full.xml"/> 
+		<mapper resource="com/deershop/model/r_goods_promotion/R_goods_promotion.xml"/> 
+		<mapper resource="com/deershop/model/r_news_goods/R_news_goods.xml"/> 
+		<mapper resource="com/deershop/model/returns/Returns.xml"/> 
+		<mapper resource="com/deershop/model/save/Save.xml"/> 
+		<mapper resource="com/deershop/model/seller/Seller.xml"/> 
+		<mapper resource="com/deershop/model/send/Send.xml"/> 
+		<mapper resource="com/deershop/model/system_message/System_message.xml"/> 
+		<mapper resource="com/deershop/model/banner/Banner.xml"/> 
+		<mapper resource="com/deershop/model/user/User.xml"/> 
+		<mapper resource="com/deershop/model/order_num/Order_num.xml"/> 
+		<mapper resource="com/deershop/model/pay/Pay.xml"/> 
+		<mapper resource="com/deershop/model/lov/Lov.xml"/> 
+		<mapper resource="com/deershop/model/cash_apply/Cash_apply.xml"/> 
+		<mapper resource="com/deershop/model/seller_card/Seller_card.xml"/> 
+		<mapper resource="com/deershop/model/income_dtl/Income_dtl.xml"/> 
+	</mappers>  
+</configuration>

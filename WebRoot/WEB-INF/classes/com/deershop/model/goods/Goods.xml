@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.goods.IGoodsMapper"> 
+	<select id="selectgoodsById" parameterType="String" resultType="Goods">
+		SELECT a.*,
+		b.ctg_name AS  ctg_name,
+		c.shop_name AS shop_name, 
+		d.postage_name AS postage_name  ,
+		e.ctg_name AS  par_ctg_name
+		FROM goods a 
+		LEFT JOIN goods_category b ON a.ctg_id=b.id 
+		LEFT JOIN seller c ON a.seller_id=c.id 
+		LEFT JOIN postage d ON a.postage_id=d.id  
+		LEFT JOIN goods_category e ON b.pid=e.id 
+		WHERE a.ID=#{id}
+	</select>
+
+	<delete id="deletegoods" parameterType="String"> 
+		DELETE FROM goods WHERE ID=#{id}
+	</delete>
+
+	<select id="selectgoodsByParam" parameterType="java.util.Map" resultType="Goods">
+		SELECT a.*,
+		b.ctg_name AS  ctg_name,
+		c.shop_name AS shop_name, 
+		d.postage_name AS postage_name  
+		FROM goods a 
+		LEFT JOIN goods_category b ON a.ctg_id=b.id 
+		LEFT JOIN seller c ON a.seller_id=c.id 
+		LEFT JOIN postage d ON a.postage_id=d.id 
+		
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="ctg_id != null"> AND a.CTG_ID =#{ctg_id} </if>
+			<if test="postage_id != null"> AND a.POSTAGE_ID =#{postage_id} </if>
+			<if test="delivery_rang != null"> AND a.DELIVERY_RANG =#{delivery_rang} </if>
+			<if test="old_prod_num != null"> AND a.OLD_PROD_NUM =#{old_prod_num} </if>
+			<if test="goods_num != null"> AND a.GOODS_NUM =#{goods_num} </if>
+			<if test="goods_name != null"> AND a.GOODS_NAME like #{goods_name} </if>
+			<if test="st_stock_amount != null"> AND a.ST_STOCK_AMOUNT =#{st_stock_amount} </if>
+			<if test="new_stock_amount != null"> AND a.NEW_STOCK_AMOUNT =#{new_stock_amount} </if>
+			<if test="limit_amount != null"> AND a.LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="goods_desc != null"> AND a.GOODS_DESC =#{goods_desc} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="sell_price != null"> AND a.SELL_PRICE =#{sell_price} </if>
+			<if test="is_promotion != null"> AND a.IS_PROMOTION =#{is_promotion} </if>
+			<if test="is_on_shelf != null"> AND a.IS_ON_SHELF =#{is_on_shelf} </if>
+			<if test="is_main != null"> AND a.IS_MAIN =#{is_main} </if>
+			<if test="is_hot != null"> AND a.IS_HOT =#{is_hot} </if>
+			<if test="on_shelf_dtFrom != null"> AND unix_timestamp(a.ON_SHELF_DT) &gt;=unix_timestamp(#{on_shelf_dtFrom}) </if>
+			<if test="on_shelf_dtTo != null"> AND unix_timestamp(a.ON_SHELF_DT) &lt;=unix_timestamp(#{on_shelf_dtTo}) </if>
+			<if test="on_shelf_dt != null"> AND a.ON_SHELF_DT =#{on_shelf_dt} </if>
+			<if test="under_shelf_dtFrom != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &gt;=unix_timestamp(#{under_shelf_dtFrom}) </if>
+			<if test="under_shelf_dtTo != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &lt;=unix_timestamp(#{under_shelf_dtTo}) </if>
+			<if test="under_shelf_dt != null"> AND a.UNDER_SHELF_DT =#{under_shelf_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND a.PAGEVIEWS =#{pageviews} </if>
+			<if test="sales != null"> AND a.SALES =#{sales} </if>
+			<if test="goods_desc_img != null"> AND a.GOODS_DESC_IMG =#{goods_desc_img} </if>
+			<if test="is_limit_amount != null"> AND a.IS_LIMIT_AMOUNT =#{is_limit_amount} </if>
+			<if test="ctg_name != null"> AND b.CTG_NAME =#{ctg_name} </if>
+			<if test="search != null"> AND CONCAT(IFNULL(ctg_name,''),' ',IFNULL(shop_name,''),' ',IFNULL(a.goods_name,'')) like '%${search}%' </if>
+			<if test="searchtext != null"> AND CONCAT(IFNULL(a.GOODS_NUM,''),' ',IFNULL(shop_name,''),' ',IFNULL(a.GOODS_NAME,'')) like '%${searchtext}%' </if>
+		
+			  
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountgoodsByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(a.id) 
+		FROM goods a  
+		LEFT JOIN goods_category b ON a.ctg_id=b.id 
+		LEFT JOIN seller c ON a.seller_id=c.id 
+		LEFT JOIN postage d ON a.postage_id=d.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="ctg_id != null"> AND a.CTG_ID =#{ctg_id} </if>
+			<if test="postage_id != null"> AND a.POSTAGE_ID =#{postage_id} </if>
+			<if test="delivery_rang != null"> AND a.DELIVERY_RANG =#{delivery_rang} </if>
+			<if test="old_prod_num != null"> AND a.OLD_PROD_NUM =#{old_prod_num} </if>
+			<if test="goods_num != null"> AND a.GOODS_NUM =#{goods_num} </if>
+			<if test="goods_name != null"> AND a.GOODS_NAME like #{goods_name} </if>
+			<if test="st_stock_amount != null"> AND a.ST_STOCK_AMOUNT =#{st_stock_amount} </if>
+			<if test="new_stock_amount != null"> AND a.NEW_STOCK_AMOUNT =#{new_stock_amount} </if>
+			<if test="limit_amount != null"> AND a.LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="goods_desc != null"> AND a.GOODS_DESC =#{goods_desc} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="sell_price != null"> AND a.SELL_PRICE =#{sell_price} </if>
+			<if test="is_promotion != null"> AND a.IS_PROMOTION =#{is_promotion} </if>
+			<if test="is_on_shelf != null"> AND a.IS_ON_SHELF =#{is_on_shelf} </if>
+			<if test="is_main != null"> AND a.IS_MAIN =#{is_main} </if>
+			<if test="is_hot != null"> AND a.IS_HOT =#{is_hot} </if>
+			<if test="on_shelf_dtFrom != null"> AND unix_timestamp(a.ON_SHELF_DT) &gt;=unix_timestamp(#{on_shelf_dtFrom}) </if>
+			<if test="on_shelf_dtTo != null"> AND unix_timestamp(a.ON_SHELF_DT) &lt;=unix_timestamp(#{on_shelf_dtTo}) </if>
+			<if test="on_shelf_dt != null"> AND a.ON_SHELF_DT =#{on_shelf_dt} </if>
+			<if test="under_shelf_dtFrom != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &gt;=unix_timestamp(#{under_shelf_dtFrom}) </if>
+			<if test="under_shelf_dtTo != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &lt;=unix_timestamp(#{under_shelf_dtTo}) </if>
+			<if test="under_shelf_dt != null"> AND a.UNDER_SHELF_DT =#{under_shelf_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND a.PAGEVIEWS =#{pageviews} </if>
+			<if test="sales != null"> AND a.SALES =#{sales} </if>
+			<if test="goods_desc_img != null"> AND a.GOODS_DESC_IMG =#{goods_desc_img} </if>
+			<if test="is_limit_amount != null"> AND a.IS_LIMIT_AMOUNT =#{is_limit_amount} </if>
+			
+			<if test="ctg_name != null"> AND b.CTG_NAME =#{ctg_name} </if>
+			
+			<if test="search != null"> AND CONCAT(IFNULL(ctg_name,''),' ',IFNULL(shop_name,''),' ',IFNULL(a.goods_name,'')) like '%${search}%' </if>
+			<if test="searchtext != null"> AND CONCAT(IFNULL(a.GOODS_NUM,''),' ',IFNULL(shop_name,''),' ',IFNULL(a.GOODS_NAME,'')) like '%${searchtext}%' </if>
+		
+		</trim>  
+	</select>
+
+	<select id="selectgoodsByParamNews" parameterType="java.util.Map" resultType="Goods">
+		SELECT a.*,
+		b.ctg_name AS  ctg_name,
+		c.shop_name AS shop_name, 
+		d.postage_name AS postage_name  
+		FROM goods a 
+		LEFT JOIN goods_category b ON a.ctg_id=b.id 
+		LEFT JOIN seller c ON a.seller_id=c.id 
+		LEFT JOIN postage d ON a.postage_id=d.id 
+		LEFT JOIN r_news_goods e ON e.goods_id=a.id 
+		
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="ctg_id != null"> AND a.CTG_ID =#{ctg_id} </if>
+			<if test="postage_id != null"> AND a.POSTAGE_ID =#{postage_id} </if>
+			<if test="delivery_rang != null"> AND a.DELIVERY_RANG =#{delivery_rang} </if>
+			<if test="old_prod_num != null"> AND a.OLD_PROD_NUM =#{old_prod_num} </if>
+			<if test="goods_num != null"> AND a.GOODS_NUM =#{goods_num} </if>
+			<if test="goods_name != null"> AND a.GOODS_NAME like #{goods_name} </if>
+			<if test="st_stock_amount != null"> AND a.ST_STOCK_AMOUNT =#{st_stock_amount} </if>
+			<if test="new_stock_amount != null"> AND a.NEW_STOCK_AMOUNT =#{new_stock_amount} </if>
+			<if test="limit_amount != null"> AND a.LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="goods_desc != null"> AND a.GOODS_DESC =#{goods_desc} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="sell_price != null"> AND a.SELL_PRICE =#{sell_price} </if>
+			<if test="is_promotion != null"> AND a.IS_PROMOTION =#{is_promotion} </if>
+			<if test="is_on_shelf != null"> AND a.IS_ON_SHELF =#{is_on_shelf} </if>
+			<if test="is_main != null"> AND a.IS_MAIN =#{is_main} </if>
+			<if test="is_hot != null"> AND a.IS_HOT =#{is_hot} </if>
+			<if test="on_shelf_dtFrom != null"> AND unix_timestamp(a.ON_SHELF_DT) &gt;=unix_timestamp(#{on_shelf_dtFrom}) </if>
+			<if test="on_shelf_dtTo != null"> AND unix_timestamp(a.ON_SHELF_DT) &lt;=unix_timestamp(#{on_shelf_dtTo}) </if>
+			<if test="on_shelf_dt != null"> AND a.ON_SHELF_DT =#{on_shelf_dt} </if>
+			<if test="under_shelf_dtFrom != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &gt;=unix_timestamp(#{under_shelf_dtFrom}) </if>
+			<if test="under_shelf_dtTo != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &lt;=unix_timestamp(#{under_shelf_dtTo}) </if>
+			<if test="under_shelf_dt != null"> AND a.UNDER_SHELF_DT =#{under_shelf_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND a.PAGEVIEWS =#{pageviews} </if>
+			<if test="sales != null"> AND a.SALES =#{sales} </if>
+			<if test="goods_desc_img != null"> AND a.GOODS_DESC_IMG =#{goods_desc_img} </if>
+			<if test="is_limit_amount != null"> AND a.IS_LIMIT_AMOUNT =#{is_limit_amount} </if>
+			
+			<if test="ctg_name != null"> AND b.CTG_NAME =#{ctg_name} </if>
+			<if test="news_id != null"> AND e.NEWS_ID =#{news_id} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountgoodsByParamNews" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(a.id) 
+		FROM goods a  
+		LEFT JOIN goods_category b ON a.ctg_id=b.id 
+		LEFT JOIN seller c ON a.seller_id=c.id 
+		LEFT JOIN postage d ON a.postage_id=d.id 
+		LEFT JOIN r_news_goods e ON e.goods_id=a.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="ctg_id != null"> AND a.CTG_ID =#{ctg_id} </if>
+			<if test="postage_id != null"> AND a.POSTAGE_ID =#{postage_id} </if>
+			<if test="delivery_rang != null"> AND a.DELIVERY_RANG =#{delivery_rang} </if>
+			<if test="old_prod_num != null"> AND a.OLD_PROD_NUM =#{old_prod_num} </if>
+			<if test="goods_num != null"> AND a.GOODS_NUM =#{goods_num} </if>
+			<if test="goods_name != null"> AND a.GOODS_NAME like #{goods_name} </if>
+			<if test="st_stock_amount != null"> AND a.ST_STOCK_AMOUNT =#{st_stock_amount} </if>
+			<if test="new_stock_amount != null"> AND a.NEW_STOCK_AMOUNT =#{new_stock_amount} </if>
+			<if test="limit_amount != null"> AND a.LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="goods_desc != null"> AND a.GOODS_DESC =#{goods_desc} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="sell_price != null"> AND a.SELL_PRICE =#{sell_price} </if>
+			<if test="is_promotion != null"> AND a.IS_PROMOTION =#{is_promotion} </if>
+			<if test="is_on_shelf != null"> AND a.IS_ON_SHELF =#{is_on_shelf} </if>
+			<if test="is_main != null"> AND a.IS_MAIN =#{is_main} </if>
+			<if test="is_hot != null"> AND a.IS_HOT =#{is_hot} </if>
+			<if test="on_shelf_dtFrom != null"> AND unix_timestamp(a.ON_SHELF_DT) &gt;=unix_timestamp(#{on_shelf_dtFrom}) </if>
+			<if test="on_shelf_dtTo != null"> AND unix_timestamp(a.ON_SHELF_DT) &lt;=unix_timestamp(#{on_shelf_dtTo}) </if>
+			<if test="on_shelf_dt != null"> AND a.ON_SHELF_DT =#{on_shelf_dt} </if>
+			<if test="under_shelf_dtFrom != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &gt;=unix_timestamp(#{under_shelf_dtFrom}) </if>
+			<if test="under_shelf_dtTo != null"> AND unix_timestamp(a.UNDER_SHELF_DT) &lt;=unix_timestamp(#{under_shelf_dtTo}) </if>
+			<if test="under_shelf_dt != null"> AND a.UNDER_SHELF_DT =#{under_shelf_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="pageviews != null"> AND a.PAGEVIEWS =#{pageviews} </if>
+			<if test="sales != null"> AND a.SALES =#{sales} </if>
+			<if test="goods_desc_img != null"> AND a.GOODS_DESC_IMG =#{goods_desc_img} </if>
+			<if test="is_limit_amount != null"> AND a.IS_LIMIT_AMOUNT =#{is_limit_amount} </if>
+			
+			<if test="ctg_name != null"> AND b.CTG_NAME =#{ctg_name} </if>
+			<if test="news_id != null"> AND e.NEWS_ID =#{news_id} </if>
+		</trim>  
+	</select>
+
+	<update id="updategoods" parameterType="Goods">
+		UPDATE goods 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="ctg_id != null">CTG_ID=#{ctg_id}, </if>
+			<if test="postage_id != null">POSTAGE_ID=#{postage_id}, </if>
+			<if test="delivery_rang != null">DELIVERY_RANG=#{delivery_rang}, </if>
+			<if test="old_prod_num != null">OLD_PROD_NUM=#{old_prod_num}, </if>
+			<if test="goods_num != null">GOODS_NUM=#{goods_num}, </if>
+			<if test="goods_name != null">GOODS_NAME=#{goods_name}, </if>
+			<if test="st_stock_amount != null">ST_STOCK_AMOUNT=#{st_stock_amount}, </if>
+			<if test="new_stock_amount != null">NEW_STOCK_AMOUNT=#{new_stock_amount}, </if>
+			<if test="limit_amount != null">LIMIT_AMOUNT=#{limit_amount}, </if>
+			<if test="goods_desc != null">GOODS_DESC=#{goods_desc}, </if>
+			<if test="img != null">IMG=#{img}, </if>
+			<if test="sell_price != null">SELL_PRICE=#{sell_price}, </if>
+			<if test="is_promotion != null">IS_PROMOTION=#{is_promotion}, </if>
+			<if test="is_on_shelf != null">IS_ON_SHELF=#{is_on_shelf}, </if>
+			<if test="is_main != null">IS_MAIN=#{is_main}, </if>
+			<if test="is_hot != null">IS_HOT=#{is_hot}, </if>
+			<if test="on_shelf_dt != null">ON_SHELF_DT=#{on_shelf_dt}, </if>
+			<if test="under_shelf_dt != null">UNDER_SHELF_DT=#{under_shelf_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="pageviews != null">PAGEVIEWS=${pageviews}, </if>
+			<if test="sales != null">SALES=#{sales}, </if>
+			<if test="goods_desc_img != null">GOODS_DESC_IMG=#{goods_desc_img}, </if>
+			<if test="is_limit_amount != null">IS_LIMIT_AMOUNT=#{is_limit_amount}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addgoods" parameterType="Goods" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO goods 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="ctg_id != null">CTG_ID, </if>
+			<if test="postage_id != null">POSTAGE_ID, </if>
+			<if test="delivery_rang != null">DELIVERY_RANG, </if>
+			<if test="old_prod_num != null">OLD_PROD_NUM, </if>
+			<if test="goods_num != null">GOODS_NUM, </if>
+			<if test="goods_name != null">GOODS_NAME, </if>
+			<if test="st_stock_amount != null">ST_STOCK_AMOUNT, </if>
+			<if test="new_stock_amount != null">NEW_STOCK_AMOUNT, </if>
+			<if test="limit_amount != null">LIMIT_AMOUNT, </if>
+			<if test="goods_desc != null">GOODS_DESC, </if>
+			<if test="img != null">IMG, </if>
+			<if test="sell_price != null">SELL_PRICE, </if>
+			<if test="is_promotion != null">IS_PROMOTION, </if>
+			<if test="is_on_shelf != null">IS_ON_SHELF, </if>
+			<if test="is_main != null">IS_MAIN, </if>
+			<if test="is_hot != null">IS_HOT, </if>
+			<if test="on_shelf_dt != null">ON_SHELF_DT, </if>
+			<if test="under_shelf_dt != null">UNDER_SHELF_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="pageviews != null">PAGEVIEWS, </if>
+			<if test="sales != null">SALES, </if>
+			<if test="goods_desc_img != null">GOODS_DESC_IMG, </if>
+			<if test="is_limit_amount != null">IS_LIMIT_AMOUNT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="ctg_id != null">#{ctg_id}, </if>
+			<if test="postage_id != null">#{postage_id}, </if>
+			<if test="delivery_rang != null">#{delivery_rang}, </if>
+			<if test="old_prod_num != null">#{old_prod_num}, </if>
+			<if test="goods_num != null">#{goods_num}, </if>
+			<if test="goods_name != null">#{goods_name}, </if>
+			<if test="st_stock_amount != null">#{st_stock_amount}, </if>
+			<if test="new_stock_amount != null">#{new_stock_amount}, </if>
+			<if test="limit_amount != null">#{limit_amount}, </if>
+			<if test="goods_desc != null">#{goods_desc}, </if>
+			<if test="img != null">#{img}, </if>
+			<if test="sell_price != null">#{sell_price}, </if>
+			<if test="is_promotion != null">#{is_promotion}, </if>
+			<if test="is_on_shelf != null">#{is_on_shelf}, </if>
+			<if test="is_main != null">#{is_main}, </if>
+			<if test="is_hot != null">#{is_hot}, </if>
+			<if test="on_shelf_dt != null">#{on_shelf_dt}, </if>
+			<if test="under_shelf_dt != null">#{under_shelf_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="pageviews != null">#{pageviews}, </if>
+			<if test="sales != null">#{sales}, </if>
+			<if test="goods_desc_img != null">#{goods_desc_img}, </if>
+			<if test="is_limit_amount != null">#{is_limit_amount}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdgoods" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO goods 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.ctg_id != null">CTG_ID, </if>
+				<if test="item.postage_id != null">POSTAGE_ID, </if>
+				<if test="item.delivery_rang != null">DELIVERY_RANG, </if>
+				<if test="item.old_prod_num != null">OLD_PROD_NUM, </if>
+				<if test="item.goods_num != null">GOODS_NUM, </if>
+				<if test="item.goods_name != null">GOODS_NAME, </if>
+				<if test="item.st_stock_amount != null">ST_STOCK_AMOUNT, </if>
+				<if test="item.new_stock_amount != null">NEW_STOCK_AMOUNT, </if>
+				<if test="item.limit_amount != null">LIMIT_AMOUNT, </if>
+				<if test="item.goods_desc != null">GOODS_DESC, </if>
+				<if test="item.img != null">IMG, </if>
+				<if test="item.sell_price != null">SELL_PRICE, </if>
+				<if test="item.is_promotion != null">IS_PROMOTION, </if>
+				<if test="item.is_on_shelf != null">IS_ON_SHELF, </if>
+				<if test="item.is_main != null">IS_MAIN, </if>
+				<if test="item.is_hot != null">IS_HOT, </if>
+				<if test="item.on_shelf_dt != null">ON_SHELF_DT, </if>
+				<if test="item.under_shelf_dt != null">UNDER_SHELF_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.pageviews != null">PAGEVIEWS, </if>
+				<if test="item.sales != null">SALES, </if>
+				<if test="item.goods_desc_img != null">GOODS_DESC_IMG, </if>
+				<if test="item.is_limit_amount != null">IS_LIMIT_AMOUNT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.ctg_id != null">#{item.ctg_id}, </if>
+				<if test="item.postage_id != null">#{item.postage_id}, </if>
+				<if test="item.delivery_rang != null">#{item.delivery_rang}, </if>
+				<if test="item.old_prod_num != null">#{item.old_prod_num}, </if>
+				<if test="item.goods_num != null">#{item.goods_num}, </if>
+				<if test="item.goods_name != null">#{item.goods_name}, </if>
+				<if test="item.st_stock_amount != null">#{item.st_stock_amount}, </if>
+				<if test="item.new_stock_amount != null">#{item.new_stock_amount}, </if>
+				<if test="item.limit_amount != null">#{item.limit_amount}, </if>
+				<if test="item.goods_desc != null">#{item.goods_desc}, </if>
+				<if test="item.img != null">#{item.img}, </if>
+				<if test="item.sell_price != null">#{item.sell_price}, </if>
+				<if test="item.is_promotion != null">#{item.is_promotion}, </if>
+				<if test="item.is_on_shelf != null">#{item.is_on_shelf}, </if>
+				<if test="item.is_main != null">#{item.is_main}, </if>
+				<if test="item.is_hot != null">#{item.is_hot}, </if>
+				<if test="item.on_shelf_dt != null">#{item.on_shelf_dt}, </if>
+				<if test="item.under_shelf_dt != null">#{item.under_shelf_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.pageviews != null">#{item.pageviews}, </if>
+				<if test="item.sales != null">#{item.sales}, </if>
+				<if test="item.goods_desc_img != null">#{item.goods_desc_img}, </if>
+				<if test="item.is_limit_amount != null">#{item.is_limit_amount}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

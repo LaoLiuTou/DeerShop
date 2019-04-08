@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.income_dtl.IIncome_dtlMapper"> 
+	<select id="selectincome_dtlById" parameterType="String" resultType="Income_dtl">
+		SELECT * FROM income_dtl WHERE ID=#{id}
+	</select>
+
+	<delete id="deleteincome_dtl" parameterType="String"> 
+		DELETE FROM income_dtl WHERE ID=#{id}
+	</delete>
+
+	<select id="selectincome_dtlByParam" parameterType="java.util.Map" resultType="Income_dtl">
+		SELECT *
+		FROM income_dtl
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="orders_id != null"> AND ORDERS_ID =#{orders_id} </if>
+			<if test="income_type != null"> AND INCOME_TYPE =#{income_type} </if>
+			<if test="income_item != null"> AND INCOME_ITEM =#{income_item} </if>
+			<if test="price != null"> AND PRICE =#{price} </if>
+			<if test="operate_dtFrom != null"> AND unix_timestamp(OPERATE_DT) &gt;=unix_timestamp(#{operate_dtFrom}) </if>
+			<if test="operate_dtTo != null"> AND unix_timestamp(OPERATE_DT) &lt;=unix_timestamp(#{operate_dtTo}) </if>
+			<if test="operate_dt != null"> AND OPERATE_DT =#{operate_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   ${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountincome_dtlByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM income_dtl 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="orders_id != null"> AND ORDERS_ID =#{orders_id} </if>
+			<if test="income_type != null"> AND INCOME_TYPE =#{income_type} </if>
+			<if test="income_item != null"> AND INCOME_ITEM =#{income_item} </if>
+			<if test="price != null"> AND PRICE =#{price} </if>
+			<if test="operate_dtFrom != null"> AND unix_timestamp(OPERATE_DT) &gt;=unix_timestamp(#{operate_dtFrom}) </if>
+			<if test="operate_dtTo != null"> AND unix_timestamp(OPERATE_DT) &lt;=unix_timestamp(#{operate_dtTo}) </if>
+			<if test="operate_dt != null"> AND OPERATE_DT =#{operate_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updateincome_dtl" parameterType="Income_dtl">
+		UPDATE income_dtl 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="orders_id != null">ORDERS_ID=#{orders_id}, </if>
+			<if test="income_type != null">INCOME_TYPE=#{income_type}, </if>
+			<if test="income_item != null">INCOME_ITEM=#{income_item}, </if>
+			<if test="price != null">PRICE=#{price}, </if>
+			<if test="operate_dt != null">OPERATE_DT=#{operate_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addincome_dtl" parameterType="Income_dtl" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO income_dtl 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="orders_id != null">ORDERS_ID, </if>
+			<if test="income_type != null">INCOME_TYPE, </if>
+			<if test="income_item != null">INCOME_ITEM, </if>
+			<if test="price != null">PRICE, </if>
+			<if test="operate_dt != null">OPERATE_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="orders_id != null">#{orders_id}, </if>
+			<if test="income_type != null">#{income_type}, </if>
+			<if test="income_item != null">#{income_item}, </if>
+			<if test="price != null">#{price}, </if>
+			<if test="operate_dt != null">#{operate_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdincome_dtl" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO income_dtl 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.orders_id != null">ORDERS_ID, </if>
+				<if test="item.income_type != null">INCOME_TYPE, </if>
+				<if test="item.income_item != null">INCOME_ITEM, </if>
+				<if test="item.price != null">PRICE, </if>
+				<if test="item.operate_dt != null">OPERATE_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.orders_id != null">#{item.orders_id}, </if>
+				<if test="item.income_type != null">#{item.income_type}, </if>
+				<if test="item.income_item != null">#{item.income_item}, </if>
+				<if test="item.price != null">#{item.price}, </if>
+				<if test="item.operate_dt != null">#{item.operate_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

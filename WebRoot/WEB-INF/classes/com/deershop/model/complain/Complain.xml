@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.complain.IComplainMapper"> 
+	<select id="selectcomplainById" parameterType="String" resultType="Complain">
+		SELECT * FROM complain WHERE ID=#{id}
+	</select>
+
+	<delete id="deletecomplain" parameterType="String"> 
+		DELETE FROM complain WHERE ID=#{id}
+	</delete>
+
+	<select id="selectcomplainByParam" parameterType="java.util.Map" resultType="Complain">
+		SELECT *
+		FROM complain
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="complainant_id != null"> AND COMPLAINANT_ID =#{complainant_id} </if>
+			<if test="complainant_type != null"> AND COMPLAINANT_TYPE =#{complainant_type} </if>
+			<if test="becomplained_id != null"> AND BECOMPLAINED_ID =#{becomplained_id} </if>
+			<if test="becomplained_type != null"> AND BECOMPLAINED_TYPE =#{becomplained_type} </if>
+			<if test="deal_people != null"> AND DEAL_PEOPLE =#{deal_people} </if>
+			<if test="complain_type != null"> AND COMPLAIN_TYPE =#{complain_type} </if>
+			<if test="complain_content != null"> AND COMPLAIN_CONTENT =#{complain_content} </if>
+			<if test="complain_img != null"> AND COMPLAIN_IMG =#{complain_img} </if>
+			<if test="becomplained_desc != null"> AND BECOMPLAINED_DESC =#{becomplained_desc} </if>
+			<if test="deal_result != null"> AND DEAL_RESULT =#{deal_result} </if>
+			<if test="complainant != null"> AND COMPLAINANT =#{complainant} </if>
+			<if test="complainant_tel != null"> AND COMPLAINANT_TEL =#{complainant_tel} </if>
+			<if test="complain_dtFrom != null"> AND unix_timestamp(COMPLAIN_DT) &gt;=unix_timestamp(#{complain_dtFrom}) </if>
+			<if test="complain_dtTo != null"> AND unix_timestamp(COMPLAIN_DT) &lt;=unix_timestamp(#{complain_dtTo}) </if>
+			<if test="complain_dt != null"> AND COMPLAIN_DT =#{complain_dt} </if>
+			<if test="deal_dtFrom != null"> AND unix_timestamp(DEAL_DT) &gt;=unix_timestamp(#{deal_dtFrom}) </if>
+			<if test="deal_dtTo != null"> AND unix_timestamp(DEAL_DT) &lt;=unix_timestamp(#{deal_dtTo}) </if>
+			<if test="deal_dt != null"> AND DEAL_DT =#{deal_dt} </if>
+			<if test="cancel_dtFrom != null"> AND unix_timestamp(CANCEL_DT) &gt;=unix_timestamp(#{cancel_dtFrom}) </if>
+			<if test="cancel_dtTo != null"> AND unix_timestamp(CANCEL_DT) &lt;=unix_timestamp(#{cancel_dtTo}) </if>
+			<if test="cancel_dt != null"> AND CANCEL_DT =#{cancel_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountcomplainByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM complain 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="complainant_id != null"> AND COMPLAINANT_ID =#{complainant_id} </if>
+			<if test="complainant_type != null"> AND COMPLAINANT_TYPE =#{complainant_type} </if>
+			<if test="becomplained_id != null"> AND BECOMPLAINED_ID =#{becomplained_id} </if>
+			<if test="becomplained_type != null"> AND BECOMPLAINED_TYPE =#{becomplained_type} </if>
+			<if test="deal_people != null"> AND DEAL_PEOPLE =#{deal_people} </if>
+			<if test="complain_type != null"> AND COMPLAIN_TYPE =#{complain_type} </if>
+			<if test="complain_content != null"> AND COMPLAIN_CONTENT =#{complain_content} </if>
+			<if test="complain_img != null"> AND COMPLAIN_IMG =#{complain_img} </if>
+			<if test="becomplained_desc != null"> AND BECOMPLAINED_DESC =#{becomplained_desc} </if>
+			<if test="deal_result != null"> AND DEAL_RESULT =#{deal_result} </if>
+			<if test="complainant != null"> AND COMPLAINANT =#{complainant} </if>
+			<if test="complainant_tel != null"> AND COMPLAINANT_TEL =#{complainant_tel} </if>
+			<if test="complain_dtFrom != null"> AND unix_timestamp(COMPLAIN_DT) &gt;=unix_timestamp(#{complain_dtFrom}) </if>
+			<if test="complain_dtTo != null"> AND unix_timestamp(COMPLAIN_DT) &lt;=unix_timestamp(#{complain_dtTo}) </if>
+			<if test="complain_dt != null"> AND COMPLAIN_DT =#{complain_dt} </if>
+			<if test="deal_dtFrom != null"> AND unix_timestamp(DEAL_DT) &gt;=unix_timestamp(#{deal_dtFrom}) </if>
+			<if test="deal_dtTo != null"> AND unix_timestamp(DEAL_DT) &lt;=unix_timestamp(#{deal_dtTo}) </if>
+			<if test="deal_dt != null"> AND DEAL_DT =#{deal_dt} </if>
+			<if test="cancel_dtFrom != null"> AND unix_timestamp(CANCEL_DT) &gt;=unix_timestamp(#{cancel_dtFrom}) </if>
+			<if test="cancel_dtTo != null"> AND unix_timestamp(CANCEL_DT) &lt;=unix_timestamp(#{cancel_dtTo}) </if>
+			<if test="cancel_dt != null"> AND CANCEL_DT =#{cancel_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updatecomplain" parameterType="Complain">
+		UPDATE complain 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="complainant_id != null">COMPLAINANT_ID=#{complainant_id}, </if>
+			<if test="complainant_type != null">COMPLAINANT_TYPE=#{complainant_type}, </if>
+			<if test="becomplained_id != null">BECOMPLAINED_ID=#{becomplained_id}, </if>
+			<if test="becomplained_type != null">BECOMPLAINED_TYPE=#{becomplained_type}, </if>
+			<if test="deal_people != null">DEAL_PEOPLE=#{deal_people}, </if>
+			<if test="complain_type != null">COMPLAIN_TYPE=#{complain_type}, </if>
+			<if test="complain_content != null">COMPLAIN_CONTENT=#{complain_content}, </if>
+			<if test="complain_img != null">COMPLAIN_IMG=#{complain_img}, </if>
+			<if test="becomplained_desc != null">BECOMPLAINED_DESC=#{becomplained_desc}, </if>
+			<if test="deal_result != null">DEAL_RESULT=#{deal_result}, </if>
+			<if test="complainant != null">COMPLAINANT=#{complainant}, </if>
+			<if test="complainant_tel != null">COMPLAINANT_TEL=#{complainant_tel}, </if>
+			<if test="complain_dt != null">COMPLAIN_DT=#{complain_dt}, </if>
+			<if test="deal_dt != null">DEAL_DT=#{deal_dt}, </if>
+			<if test="cancel_dt != null">CANCEL_DT=#{cancel_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addcomplain" parameterType="Complain" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO complain 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="complainant_id != null">COMPLAINANT_ID, </if>
+			<if test="complainant_type != null">COMPLAINANT_TYPE, </if>
+			<if test="becomplained_id != null">BECOMPLAINED_ID, </if>
+			<if test="becomplained_type != null">BECOMPLAINED_TYPE, </if>
+			<if test="deal_people != null">DEAL_PEOPLE, </if>
+			<if test="complain_type != null">COMPLAIN_TYPE, </if>
+			<if test="complain_content != null">COMPLAIN_CONTENT, </if>
+			<if test="complain_img != null">COMPLAIN_IMG, </if>
+			<if test="becomplained_desc != null">BECOMPLAINED_DESC, </if>
+			<if test="deal_result != null">DEAL_RESULT, </if>
+			<if test="complainant != null">COMPLAINANT, </if>
+			<if test="complainant_tel != null">COMPLAINANT_TEL, </if>
+			<if test="complain_dt != null">COMPLAIN_DT, </if>
+			<if test="deal_dt != null">DEAL_DT, </if>
+			<if test="cancel_dt != null">CANCEL_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="complainant_id != null">#{complainant_id}, </if>
+			<if test="complainant_type != null">#{complainant_type}, </if>
+			<if test="becomplained_id != null">#{becomplained_id}, </if>
+			<if test="becomplained_type != null">#{becomplained_type}, </if>
+			<if test="deal_people != null">#{deal_people}, </if>
+			<if test="complain_type != null">#{complain_type}, </if>
+			<if test="complain_content != null">#{complain_content}, </if>
+			<if test="complain_img != null">#{complain_img}, </if>
+			<if test="becomplained_desc != null">#{becomplained_desc}, </if>
+			<if test="deal_result != null">#{deal_result}, </if>
+			<if test="complainant != null">#{complainant}, </if>
+			<if test="complainant_tel != null">#{complainant_tel}, </if>
+			<if test="complain_dt != null">#{complain_dt}, </if>
+			<if test="deal_dt != null">#{deal_dt}, </if>
+			<if test="cancel_dt != null">#{cancel_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdcomplain" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO complain 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.complainant_id != null">COMPLAINANT_ID, </if>
+				<if test="item.complainant_type != null">COMPLAINANT_TYPE, </if>
+				<if test="item.becomplained_id != null">BECOMPLAINED_ID, </if>
+				<if test="item.becomplained_type != null">BECOMPLAINED_TYPE, </if>
+				<if test="item.deal_people != null">DEAL_PEOPLE, </if>
+				<if test="item.complain_type != null">COMPLAIN_TYPE, </if>
+				<if test="item.complain_content != null">COMPLAIN_CONTENT, </if>
+				<if test="item.complain_img != null">COMPLAIN_IMG, </if>
+				<if test="item.becomplained_desc != null">BECOMPLAINED_DESC, </if>
+				<if test="item.deal_result != null">DEAL_RESULT, </if>
+				<if test="item.complainant != null">COMPLAINANT, </if>
+				<if test="item.complainant_tel != null">COMPLAINANT_TEL, </if>
+				<if test="item.complain_dt != null">COMPLAIN_DT, </if>
+				<if test="item.deal_dt != null">DEAL_DT, </if>
+				<if test="item.cancel_dt != null">CANCEL_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.complainant_id != null">#{item.complainant_id}, </if>
+				<if test="item.complainant_type != null">#{item.complainant_type}, </if>
+				<if test="item.becomplained_id != null">#{item.becomplained_id}, </if>
+				<if test="item.becomplained_type != null">#{item.becomplained_type}, </if>
+				<if test="item.deal_people != null">#{item.deal_people}, </if>
+				<if test="item.complain_type != null">#{item.complain_type}, </if>
+				<if test="item.complain_content != null">#{item.complain_content}, </if>
+				<if test="item.complain_img != null">#{item.complain_img}, </if>
+				<if test="item.becomplained_desc != null">#{item.becomplained_desc}, </if>
+				<if test="item.deal_result != null">#{item.deal_result}, </if>
+				<if test="item.complainant != null">#{item.complainant}, </if>
+				<if test="item.complainant_tel != null">#{item.complainant_tel}, </if>
+				<if test="item.complain_dt != null">#{item.complain_dt}, </if>
+				<if test="item.deal_dt != null">#{item.deal_dt}, </if>
+				<if test="item.cancel_dt != null">#{item.cancel_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

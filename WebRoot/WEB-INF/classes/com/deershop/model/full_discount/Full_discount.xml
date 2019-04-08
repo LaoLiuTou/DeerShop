@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.full_discount.IFull_discountMapper"> 
+	<select id="selectfull_discountById" parameterType="String" resultType="Full_discount">
+		SELECT * FROM full_discount WHERE ID=#{id}
+	</select>
+
+	<delete id="deletefull_discount" parameterType="String"> 
+		DELETE FROM full_discount WHERE ID=#{id}
+	</delete>
+
+	<select id="selectfull_discountByParam" parameterType="java.util.Map" resultType="Full_discount">
+		SELECT *
+		FROM full_discount
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="full_type != null"> AND FULL_TYPE =#{full_type} </if>
+			<if test="full_name != null"> AND FULL_NAME =#{full_name} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="full_desc != null"> AND FULL_DESC =#{full_desc} </if>
+			<if test="is_all != null"> AND IS_ALL =#{is_all} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND CREATE_DT =#{create_dt} </if>
+			<if test="st_dtFrom != null"> AND unix_timestamp(ST_DT) &gt;=unix_timestamp(#{st_dtFrom}) </if>
+			<if test="st_dtTo != null"> AND unix_timestamp(ST_DT) &lt;=unix_timestamp(#{st_dtTo}) </if>
+			<if test="st_dt != null"> AND ST_DT =#{st_dt} </if>
+			<if test="ed_dtFrom != null"> AND unix_timestamp(ED_DT) &gt;=unix_timestamp(#{ed_dtFrom}) </if>
+			<if test="ed_dtTo != null"> AND unix_timestamp(ED_DT) &lt;=unix_timestamp(#{ed_dtTo}) </if>
+			<if test="ed_dt != null"> AND ED_DT =#{ed_dt} </if>
+			<if test="stop_dtFrom != null"> AND unix_timestamp(STOP_DT) &gt;=unix_timestamp(#{stop_dtFrom}) </if>
+			<if test="stop_dtTo != null"> AND unix_timestamp(STOP_DT) &lt;=unix_timestamp(#{stop_dtTo}) </if>
+			<if test="stop_dt != null"> AND STOP_DT =#{stop_dt} </if>
+			<if test="publish_status != null"> AND PUBLISH_STATUS =#{publish_status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountfull_discountByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM full_discount 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="full_type != null"> AND FULL_TYPE =#{full_type} </if>
+			<if test="full_name != null"> AND FULL_NAME =#{full_name} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="full_desc != null"> AND FULL_DESC =#{full_desc} </if>
+			<if test="is_all != null"> AND IS_ALL =#{is_all} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND CREATE_DT =#{create_dt} </if>
+			<if test="st_dtFrom != null"> AND unix_timestamp(ST_DT) &gt;=unix_timestamp(#{st_dtFrom}) </if>
+			<if test="st_dtTo != null"> AND unix_timestamp(ST_DT) &lt;=unix_timestamp(#{st_dtTo}) </if>
+			<if test="st_dt != null"> AND ST_DT =#{st_dt} </if>
+			<if test="ed_dtFrom != null"> AND unix_timestamp(ED_DT) &gt;=unix_timestamp(#{ed_dtFrom}) </if>
+			<if test="ed_dtTo != null"> AND unix_timestamp(ED_DT) &lt;=unix_timestamp(#{ed_dtTo}) </if>
+			<if test="ed_dt != null"> AND ED_DT =#{ed_dt} </if>
+			<if test="stop_dtFrom != null"> AND unix_timestamp(STOP_DT) &gt;=unix_timestamp(#{stop_dtFrom}) </if>
+			<if test="stop_dtTo != null"> AND unix_timestamp(STOP_DT) &lt;=unix_timestamp(#{stop_dtTo}) </if>
+			<if test="stop_dt != null"> AND STOP_DT =#{stop_dt} </if>
+			<if test="publish_status != null"> AND PUBLISH_STATUS =#{publish_status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updatefull_discount" parameterType="Full_discount">
+		UPDATE full_discount 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="full_type != null">FULL_TYPE=#{full_type}, </if>
+			<if test="full_name != null">FULL_NAME=#{full_name}, </if>
+			<if test="rule != null">RULE=#{rule}, </if>
+			<if test="full_desc != null">FULL_DESC=#{full_desc}, </if>
+			<if test="is_all != null">IS_ALL=#{is_all}, </if>
+			<if test="create_dt != null">CREATE_DT=#{create_dt}, </if>
+			<if test="st_dt != null">ST_DT=#{st_dt}, </if>
+			<if test="ed_dt != null">ED_DT=#{ed_dt}, </if>
+			<if test="stop_dt != null">STOP_DT=#{stop_dt}, </if>
+			<if test="publish_status != null">PUBLISH_STATUS=#{publish_status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addfull_discount" parameterType="Full_discount" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO full_discount 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="full_type != null">FULL_TYPE, </if>
+			<if test="full_name != null">FULL_NAME, </if>
+			<if test="rule != null">RULE, </if>
+			<if test="full_desc != null">FULL_DESC, </if>
+			<if test="is_all != null">IS_ALL, </if>
+			<if test="create_dt != null">CREATE_DT, </if>
+			<if test="st_dt != null">ST_DT, </if>
+			<if test="ed_dt != null">ED_DT, </if>
+			<if test="stop_dt != null">STOP_DT, </if>
+			<if test="publish_status != null">PUBLISH_STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="full_type != null">#{full_type}, </if>
+			<if test="full_name != null">#{full_name}, </if>
+			<if test="rule != null">#{rule}, </if>
+			<if test="full_desc != null">#{full_desc}, </if>
+			<if test="is_all != null">#{is_all}, </if>
+			<if test="create_dt != null">#{create_dt}, </if>
+			<if test="st_dt != null">#{st_dt}, </if>
+			<if test="ed_dt != null">#{ed_dt}, </if>
+			<if test="stop_dt != null">#{stop_dt}, </if>
+			<if test="publish_status != null">#{publish_status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdfull_discount" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO full_discount 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.full_type != null">FULL_TYPE, </if>
+				<if test="item.full_name != null">FULL_NAME, </if>
+				<if test="item.rule != null">RULE, </if>
+				<if test="item.full_desc != null">FULL_DESC, </if>
+				<if test="item.is_all != null">IS_ALL, </if>
+				<if test="item.create_dt != null">CREATE_DT, </if>
+				<if test="item.st_dt != null">ST_DT, </if>
+				<if test="item.ed_dt != null">ED_DT, </if>
+				<if test="item.stop_dt != null">STOP_DT, </if>
+				<if test="item.publish_status != null">PUBLISH_STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.full_type != null">#{item.full_type}, </if>
+				<if test="item.full_name != null">#{item.full_name}, </if>
+				<if test="item.rule != null">#{item.rule}, </if>
+				<if test="item.full_desc != null">#{item.full_desc}, </if>
+				<if test="item.is_all != null">#{item.is_all}, </if>
+				<if test="item.create_dt != null">#{item.create_dt}, </if>
+				<if test="item.st_dt != null">#{item.st_dt}, </if>
+				<if test="item.ed_dt != null">#{item.ed_dt}, </if>
+				<if test="item.stop_dt != null">#{item.stop_dt}, </if>
+				<if test="item.publish_status != null">#{item.publish_status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

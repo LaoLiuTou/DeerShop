@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.postage.IPostageMapper"> 
+	<select id="selectpostageById" parameterType="String" resultType="Postage">
+		SELECT * FROM postage WHERE ID=#{id}
+	</select>
+
+	<delete id="deletepostage" parameterType="String"> 
+		DELETE FROM postage WHERE ID=#{id}
+	</delete>
+
+	<select id="selectpostageByParam" parameterType="java.util.Map" resultType="Postage">
+		SELECT *
+		FROM postage
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="postage_name != null"> AND POSTAGE_NAME =#{postage_name} </if>
+			<if test="postage_desc != null"> AND POSTAGE_DESC =#{postage_desc} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="is_use != null"> AND IS_USE =#{is_use} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="postagecol != null"> AND POSTAGECOL =#{postagecol} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountpostageByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM postage 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="postage_name != null"> AND POSTAGE_NAME =#{postage_name} </if>
+			<if test="postage_desc != null"> AND POSTAGE_DESC =#{postage_desc} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="is_use != null"> AND IS_USE =#{is_use} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="postagecol != null"> AND POSTAGECOL =#{postagecol} </if>
+		</trim>  
+	</select>
+
+	<update id="updatepostage" parameterType="Postage">
+		UPDATE postage 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="postage_name != null">POSTAGE_NAME=#{postage_name}, </if>
+			<if test="postage_desc != null">POSTAGE_DESC=#{postage_desc}, </if>
+			<if test="rule != null">RULE=#{rule}, </if>
+			<if test="is_use != null">IS_USE=#{is_use}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="postagecol != null">POSTAGECOL=#{postagecol}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addpostage" parameterType="Postage" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO postage 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="postage_name != null">POSTAGE_NAME, </if>
+			<if test="postage_desc != null">POSTAGE_DESC, </if>
+			<if test="rule != null">RULE, </if>
+			<if test="is_use != null">IS_USE, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="postagecol != null">POSTAGECOL, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="postage_name != null">#{postage_name}, </if>
+			<if test="postage_desc != null">#{postage_desc}, </if>
+			<if test="rule != null">#{rule}, </if>
+			<if test="is_use != null">#{is_use}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="postagecol != null">#{postagecol}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdpostage" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO postage 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.postage_name != null">POSTAGE_NAME, </if>
+				<if test="item.postage_desc != null">POSTAGE_DESC, </if>
+				<if test="item.rule != null">RULE, </if>
+				<if test="item.is_use != null">IS_USE, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.postagecol != null">POSTAGECOL, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.postage_name != null">#{item.postage_name}, </if>
+				<if test="item.postage_desc != null">#{item.postage_desc}, </if>
+				<if test="item.rule != null">#{item.rule}, </if>
+				<if test="item.is_use != null">#{item.is_use}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.postagecol != null">#{item.postagecol}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

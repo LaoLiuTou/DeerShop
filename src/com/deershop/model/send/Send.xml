@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.send.ISendMapper"> 
+	<select id="selectsendById" parameterType="String" resultType="Send">
+		SELECT * FROM send WHERE ID=#{id}
+	</select>
+
+	<delete id="deletesend" parameterType="String"> 
+		DELETE FROM send WHERE ID=#{id}
+	</delete>
+
+	<select id="selectsendByParam" parameterType="java.util.Map" resultType="Send">
+		SELECT *
+		FROM send
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="orders_id != null"> AND ORDERS_ID =#{orders_id} </if>
+			<if test="package_num != null"> AND PACKAGE_NUM =#{package_num} </if>
+			<if test="order_item_ids != null"> AND ORDER_ITEM_IDS =#{order_item_ids} </if>
+			<if test="send_type != null"> AND SEND_TYPE =#{send_type} </if>
+			<if test="express_name != null"> AND EXPRESS_NAME =#{express_name} </if>
+			<if test="express_code != null"> AND EXPRESS_CODE =#{express_code} </if>
+			<if test="send_dtFrom != null"> AND unix_timestamp(SEND_DT) &gt;=unix_timestamp(#{send_dtFrom}) </if>
+			<if test="send_dtTo != null"> AND unix_timestamp(SEND_DT) &lt;=unix_timestamp(#{send_dtTo}) </if>
+			<if test="send_dt != null"> AND SEND_DT =#{send_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountsendByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM send 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="orders_id != null"> AND ORDERS_ID =#{orders_id} </if>
+			<if test="package_num != null"> AND PACKAGE_NUM =#{package_num} </if>
+			<if test="order_item_ids != null"> AND ORDER_ITEM_IDS =#{order_item_ids} </if>
+			<if test="send_type != null"> AND SEND_TYPE =#{send_type} </if>
+			<if test="express_name != null"> AND EXPRESS_NAME =#{express_name} </if>
+			<if test="express_code != null"> AND EXPRESS_CODE =#{express_code} </if>
+			<if test="send_dtFrom != null"> AND unix_timestamp(SEND_DT) &gt;=unix_timestamp(#{send_dtFrom}) </if>
+			<if test="send_dtTo != null"> AND unix_timestamp(SEND_DT) &lt;=unix_timestamp(#{send_dtTo}) </if>
+			<if test="send_dt != null"> AND SEND_DT =#{send_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updatesend" parameterType="Send">
+		UPDATE send 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="orders_id != null">ORDERS_ID=#{orders_id}, </if>
+			<if test="package_num != null">PACKAGE_NUM=#{package_num}, </if>
+			<if test="order_item_ids != null">ORDER_ITEM_IDS=#{order_item_ids}, </if>
+			<if test="send_type != null">SEND_TYPE=#{send_type}, </if>
+			<if test="express_name != null">EXPRESS_NAME=#{express_name}, </if>
+			<if test="express_code != null">EXPRESS_CODE=#{express_code}, </if>
+			<if test="send_dt != null">SEND_DT=#{send_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addsend" parameterType="Send" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO send 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="orders_id != null">ORDERS_ID, </if>
+			<if test="package_num != null">PACKAGE_NUM, </if>
+			<if test="order_item_ids != null">ORDER_ITEM_IDS, </if>
+			<if test="send_type != null">SEND_TYPE, </if>
+			<if test="express_name != null">EXPRESS_NAME, </if>
+			<if test="express_code != null">EXPRESS_CODE, </if>
+			<if test="send_dt != null">SEND_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="orders_id != null">#{orders_id}, </if>
+			<if test="package_num != null">#{package_num}, </if>
+			<if test="order_item_ids != null">#{order_item_ids}, </if>
+			<if test="send_type != null">#{send_type}, </if>
+			<if test="express_name != null">#{express_name}, </if>
+			<if test="express_code != null">#{express_code}, </if>
+			<if test="send_dt != null">#{send_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdsend" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO send 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.orders_id != null">ORDERS_ID, </if>
+				<if test="item.package_num != null">PACKAGE_NUM, </if>
+				<if test="item.order_item_ids != null">ORDER_ITEM_IDS, </if>
+				<if test="item.send_type != null">SEND_TYPE, </if>
+				<if test="item.express_name != null">EXPRESS_NAME, </if>
+				<if test="item.express_code != null">EXPRESS_CODE, </if>
+				<if test="item.send_dt != null">SEND_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.orders_id != null">#{item.orders_id}, </if>
+				<if test="item.package_num != null">#{item.package_num}, </if>
+				<if test="item.order_item_ids != null">#{item.order_item_ids}, </if>
+				<if test="item.send_type != null">#{item.send_type}, </if>
+				<if test="item.express_name != null">#{item.express_name}, </if>
+				<if test="item.express_code != null">#{item.express_code}, </if>
+				<if test="item.send_dt != null">#{item.send_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

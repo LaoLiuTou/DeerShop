@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.promotion_code.IPromotion_codeMapper"> 
+	<select id="selectpromotion_codeById" parameterType="String" resultType="Promotion_code">
+		SELECT * FROM promotion_code WHERE ID=#{id}
+	</select>
+
+	<delete id="deletepromotion_code" parameterType="String"> 
+		DELETE FROM promotion_code WHERE ID=#{id}
+	</delete>
+
+	<select id="selectpromotion_codeByParam" parameterType="java.util.Map" resultType="Promotion_code">
+		SELECT *
+		FROM promotion_code
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="promotion_type != null"> AND PROMOTION_TYPE =#{promotion_type} </if>
+			<if test="promotion_name != null"> AND PROMOTION_NAME =#{promotion_name} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="promotion_desc != null"> AND PROMOTION_DESC =#{promotion_desc} </if>
+			<if test="publish_amount != null"> AND PUBLISH_AMOUNT =#{publish_amount} </if>
+			<if test="now_amount != null"> AND NOW_AMOUNT =#{now_amount} </if>
+			<if test="limit_amount != null"> AND LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="is_all != null"> AND IS_ALL =#{is_all} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND CREATE_DT =#{create_dt} </if>
+			<if test="publish_dtFrom != null"> AND unix_timestamp(PUBLISH_DT) &gt;=unix_timestamp(#{publish_dtFrom}) </if>
+			<if test="publish_dtTo != null"> AND unix_timestamp(PUBLISH_DT) &lt;=unix_timestamp(#{publish_dtTo}) </if>
+			<if test="publish_dt != null"> AND PUBLISH_DT =#{publish_dt} </if>
+			<if test="st_dtFrom != null"> AND unix_timestamp(ST_DT) &gt;=unix_timestamp(#{st_dtFrom}) </if>
+			<if test="st_dtTo != null"> AND unix_timestamp(ST_DT) &lt;=unix_timestamp(#{st_dtTo}) </if>
+			<if test="st_dt != null"> AND ST_DT =#{st_dt} </if>
+			<if test="ed_dtFrom != null"> AND unix_timestamp(ED_DT) &gt;=unix_timestamp(#{ed_dtFrom}) </if>
+			<if test="ed_dtTo != null"> AND unix_timestamp(ED_DT) &lt;=unix_timestamp(#{ed_dtTo}) </if>
+			<if test="ed_dt != null"> AND ED_DT =#{ed_dt} </if>
+			<if test="cancel_dtFrom != null"> AND unix_timestamp(CANCEL_DT) &gt;=unix_timestamp(#{cancel_dtFrom}) </if>
+			<if test="cancel_dtTo != null"> AND unix_timestamp(CANCEL_DT) &lt;=unix_timestamp(#{cancel_dtTo}) </if>
+			<if test="cancel_dt != null"> AND CANCEL_DT =#{cancel_dt} </if>
+			<if test="stop_dtFrom != null"> AND unix_timestamp(STOP_DT) &gt;=unix_timestamp(#{stop_dtFrom}) </if>
+			<if test="stop_dtTo != null"> AND unix_timestamp(STOP_DT) &lt;=unix_timestamp(#{stop_dtTo}) </if>
+			<if test="stop_dt != null"> AND STOP_DT =#{stop_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountpromotion_codeByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM promotion_code 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="promotion_type != null"> AND PROMOTION_TYPE =#{promotion_type} </if>
+			<if test="promotion_name != null"> AND PROMOTION_NAME =#{promotion_name} </if>
+			<if test="rule != null"> AND RULE =#{rule} </if>
+			<if test="promotion_desc != null"> AND PROMOTION_DESC =#{promotion_desc} </if>
+			<if test="publish_amount != null"> AND PUBLISH_AMOUNT =#{publish_amount} </if>
+			<if test="now_amount != null"> AND NOW_AMOUNT =#{now_amount} </if>
+			<if test="limit_amount != null"> AND LIMIT_AMOUNT =#{limit_amount} </if>
+			<if test="is_all != null"> AND IS_ALL =#{is_all} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND CREATE_DT =#{create_dt} </if>
+			<if test="publish_dtFrom != null"> AND unix_timestamp(PUBLISH_DT) &gt;=unix_timestamp(#{publish_dtFrom}) </if>
+			<if test="publish_dtTo != null"> AND unix_timestamp(PUBLISH_DT) &lt;=unix_timestamp(#{publish_dtTo}) </if>
+			<if test="publish_dt != null"> AND PUBLISH_DT =#{publish_dt} </if>
+			<if test="st_dtFrom != null"> AND unix_timestamp(ST_DT) &gt;=unix_timestamp(#{st_dtFrom}) </if>
+			<if test="st_dtTo != null"> AND unix_timestamp(ST_DT) &lt;=unix_timestamp(#{st_dtTo}) </if>
+			<if test="st_dt != null"> AND ST_DT =#{st_dt} </if>
+			<if test="ed_dtFrom != null"> AND unix_timestamp(ED_DT) &gt;=unix_timestamp(#{ed_dtFrom}) </if>
+			<if test="ed_dtTo != null"> AND unix_timestamp(ED_DT) &lt;=unix_timestamp(#{ed_dtTo}) </if>
+			<if test="ed_dt != null"> AND ED_DT =#{ed_dt} </if>
+			<if test="cancel_dtFrom != null"> AND unix_timestamp(CANCEL_DT) &gt;=unix_timestamp(#{cancel_dtFrom}) </if>
+			<if test="cancel_dtTo != null"> AND unix_timestamp(CANCEL_DT) &lt;=unix_timestamp(#{cancel_dtTo}) </if>
+			<if test="cancel_dt != null"> AND CANCEL_DT =#{cancel_dt} </if>
+			<if test="stop_dtFrom != null"> AND unix_timestamp(STOP_DT) &gt;=unix_timestamp(#{stop_dtFrom}) </if>
+			<if test="stop_dtTo != null"> AND unix_timestamp(STOP_DT) &lt;=unix_timestamp(#{stop_dtTo}) </if>
+			<if test="stop_dt != null"> AND STOP_DT =#{stop_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updatepromotion_code" parameterType="Promotion_code">
+		UPDATE promotion_code 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="promotion_type != null">PROMOTION_TYPE=#{promotion_type}, </if>
+			<if test="promotion_name != null">PROMOTION_NAME=#{promotion_name}, </if>
+			<if test="rule != null">RULE=#{rule}, </if>
+			<if test="promotion_desc != null">PROMOTION_DESC=#{promotion_desc}, </if>
+			<if test="publish_amount != null">PUBLISH_AMOUNT=#{publish_amount}, </if>
+			<if test="now_amount != null">NOW_AMOUNT=#{now_amount}, </if>
+			<if test="limit_amount != null">LIMIT_AMOUNT=#{limit_amount}, </if>
+			<if test="is_all != null">IS_ALL=#{is_all}, </if>
+			<if test="create_dt != null">CREATE_DT=#{create_dt}, </if>
+			<if test="publish_dt != null">PUBLISH_DT=#{publish_dt}, </if>
+			<if test="st_dt != null">ST_DT=#{st_dt}, </if>
+			<if test="ed_dt != null">ED_DT=#{ed_dt}, </if>
+			<if test="cancel_dt != null">CANCEL_DT=#{cancel_dt}, </if>
+			<if test="stop_dt != null">STOP_DT=#{stop_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addpromotion_code" parameterType="Promotion_code" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO promotion_code 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="promotion_type != null">PROMOTION_TYPE, </if>
+			<if test="promotion_name != null">PROMOTION_NAME, </if>
+			<if test="rule != null">RULE, </if>
+			<if test="promotion_desc != null">PROMOTION_DESC, </if>
+			<if test="publish_amount != null">PUBLISH_AMOUNT, </if>
+			<if test="now_amount != null">NOW_AMOUNT, </if>
+			<if test="limit_amount != null">LIMIT_AMOUNT, </if>
+			<if test="is_all != null">IS_ALL, </if>
+			<if test="create_dt != null">CREATE_DT, </if>
+			<if test="publish_dt != null">PUBLISH_DT, </if>
+			<if test="st_dt != null">ST_DT, </if>
+			<if test="ed_dt != null">ED_DT, </if>
+			<if test="cancel_dt != null">CANCEL_DT, </if>
+			<if test="stop_dt != null">STOP_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="promotion_type != null">#{promotion_type}, </if>
+			<if test="promotion_name != null">#{promotion_name}, </if>
+			<if test="rule != null">#{rule}, </if>
+			<if test="promotion_desc != null">#{promotion_desc}, </if>
+			<if test="publish_amount != null">#{publish_amount}, </if>
+			<if test="now_amount != null">#{now_amount}, </if>
+			<if test="limit_amount != null">#{limit_amount}, </if>
+			<if test="is_all != null">#{is_all}, </if>
+			<if test="create_dt != null">#{create_dt}, </if>
+			<if test="publish_dt != null">#{publish_dt}, </if>
+			<if test="st_dt != null">#{st_dt}, </if>
+			<if test="ed_dt != null">#{ed_dt}, </if>
+			<if test="cancel_dt != null">#{cancel_dt}, </if>
+			<if test="stop_dt != null">#{stop_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdpromotion_code" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO promotion_code 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.promotion_type != null">PROMOTION_TYPE, </if>
+				<if test="item.promotion_name != null">PROMOTION_NAME, </if>
+				<if test="item.rule != null">RULE, </if>
+				<if test="item.promotion_desc != null">PROMOTION_DESC, </if>
+				<if test="item.publish_amount != null">PUBLISH_AMOUNT, </if>
+				<if test="item.now_amount != null">NOW_AMOUNT, </if>
+				<if test="item.limit_amount != null">LIMIT_AMOUNT, </if>
+				<if test="item.is_all != null">IS_ALL, </if>
+				<if test="item.create_dt != null">CREATE_DT, </if>
+				<if test="item.publish_dt != null">PUBLISH_DT, </if>
+				<if test="item.st_dt != null">ST_DT, </if>
+				<if test="item.ed_dt != null">ED_DT, </if>
+				<if test="item.cancel_dt != null">CANCEL_DT, </if>
+				<if test="item.stop_dt != null">STOP_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.promotion_type != null">#{item.promotion_type}, </if>
+				<if test="item.promotion_name != null">#{item.promotion_name}, </if>
+				<if test="item.rule != null">#{item.rule}, </if>
+				<if test="item.promotion_desc != null">#{item.promotion_desc}, </if>
+				<if test="item.publish_amount != null">#{item.publish_amount}, </if>
+				<if test="item.now_amount != null">#{item.now_amount}, </if>
+				<if test="item.limit_amount != null">#{item.limit_amount}, </if>
+				<if test="item.is_all != null">#{item.is_all}, </if>
+				<if test="item.create_dt != null">#{item.create_dt}, </if>
+				<if test="item.publish_dt != null">#{item.publish_dt}, </if>
+				<if test="item.st_dt != null">#{item.st_dt}, </if>
+				<if test="item.ed_dt != null">#{item.ed_dt}, </if>
+				<if test="item.cancel_dt != null">#{item.cancel_dt}, </if>
+				<if test="item.stop_dt != null">#{item.stop_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

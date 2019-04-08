@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.cash_apply.ICash_applyMapper"> 
+	<select id="selectcash_applyById" parameterType="String" resultType="Cash_apply">
+		SELECT a.* ,b.shop_name as shop_name,b.shop_tel as shop_tel 
+		FROM cash_apply a 
+		LEFT JOIN seller b on a.seller_id=b.id 
+		WHERE a.ID=#{id}
+	</select>
+
+	<delete id="deletecash_apply" parameterType="String"> 
+		DELETE FROM cash_apply WHERE ID=#{id}
+	</delete>
+
+	<select id="selectcash_applyByParam" parameterType="java.util.Map" resultType="Cash_apply">
+		SELECT a.* ,b.shop_name as shop_name,b.shop_tel as shop_tel 
+		FROM cash_apply a 
+		LEFT JOIN seller b on a.seller_id=b.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="price != null"> AND a.PRICE =#{price} </if>
+			<if test="cash_type != null"> AND a.CASH_TYPE =#{cash_type} </if>
+			<if test="cash_info != null"> AND a.CASH_INFO =#{cash_info} </if>
+			<if test="cash_status != null"> AND a.CASH_STATUS =#{cash_status} </if>
+			<if test="cash_price != null"> AND a.CASH_PRICE =#{cash_price} </if>
+			<if test="cash_service != null"> AND a.CASH_SERVICE =#{cash_service} </if>
+			<if test="cash_rate != null"> AND a.CASH_RATE =#{cash_rate} </if>
+			<if test="cash_code != null"> AND a.CASH_CODE =#{cash_code} </if>
+			<if test="cash_deal_id != null"> AND a.CASH_DEAL_ID =#{cash_deal_id} </if>
+			<if test="cash_st_dtFrom != null"> AND unix_timestamp(a.CASH_ST_DT) &gt;=unix_timestamp(#{cash_st_dtFrom}) </if>
+			<if test="cash_st_dtTo != null"> AND unix_timestamp(a.CASH_ST_DT) &lt;=unix_timestamp(#{cash_st_dtTo}) </if>
+			<if test="cash_st_dt != null"> AND a.CASH_ST_DT =#{cash_st_dt} </if>
+			<if test="cash_ok_dtFrom != null"> AND unix_timestamp(a.CASH_OK_DT) &gt;=unix_timestamp(#{cash_ok_dtFrom}) </if>
+			<if test="cash_ok_dtTo != null"> AND unix_timestamp(a.CASH_OK_DT) &lt;=unix_timestamp(#{cash_ok_dtTo}) </if>
+			<if test="cash_ok_dt != null"> AND a.CASH_OK_DT =#{cash_ok_dt} </if>
+			<if test="deal_dateFrom != null"> AND unix_timestamp(a.DEAL_DATE) &gt;=unix_timestamp(#{deal_dateFrom}) </if>
+			<if test="deal_dateTo != null"> AND unix_timestamp(a.DEAL_DATE) &lt;=unix_timestamp(#{deal_dateTo}) </if>
+			<if test="deal_date != null"> AND a.DEAL_DATE =#{deal_date} </if>
+			<if test="cash_img != null"> AND a.CASH_IMG =#{cash_img} </if>
+			<if test="search != null"> AND CONCAT(CONCAT(b.shop_name,''),' ',CONCAT(b.shop_tel,''),' ',CONCAT(a.CASH_CODE,'')) like '%${search}%' </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountcash_applyByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(a.id) 
+		FROM cash_apply a 
+		LEFT JOIN seller b on a.seller_id=b.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="price != null"> AND a.PRICE =#{price} </if>
+			<if test="cash_type != null"> AND a.CASH_TYPE =#{cash_type} </if>
+			<if test="cash_info != null"> AND a.CASH_INFO =#{cash_info} </if>
+			<if test="cash_status != null"> AND a.CASH_STATUS =#{cash_status} </if>
+			<if test="cash_price != null"> AND a.CASH_PRICE =#{cash_price} </if>
+			<if test="cash_service != null"> AND a.CASH_SERVICE =#{cash_service} </if>
+			<if test="cash_rate != null"> AND a.CASH_RATE =#{cash_rate} </if>
+			<if test="cash_code != null"> AND a.CASH_CODE =#{cash_code} </if>
+			<if test="cash_deal_id != null"> AND a.CASH_DEAL_ID =#{cash_deal_id} </if>
+			<if test="cash_st_dtFrom != null"> AND unix_timestamp(a.CASH_ST_DT) &gt;=unix_timestamp(#{cash_st_dtFrom}) </if>
+			<if test="cash_st_dtTo != null"> AND unix_timestamp(a.CASH_ST_DT) &lt;=unix_timestamp(#{cash_st_dtTo}) </if>
+			<if test="cash_st_dt != null"> AND a.CASH_ST_DT =#{cash_st_dt} </if>
+			<if test="cash_ok_dtFrom != null"> AND unix_timestamp(a.CASH_OK_DT) &gt;=unix_timestamp(#{cash_ok_dtFrom}) </if>
+			<if test="cash_ok_dtTo != null"> AND unix_timestamp(a.CASH_OK_DT) &lt;=unix_timestamp(#{cash_ok_dtTo}) </if>
+			<if test="cash_ok_dt != null"> AND a.CASH_OK_DT =#{cash_ok_dt} </if>
+			<if test="deal_dateFrom != null"> AND unix_timestamp(a.DEAL_DATE) &gt;=unix_timestamp(#{deal_dateFrom}) </if>
+			<if test="deal_dateTo != null"> AND unix_timestamp(a.DEAL_DATE) &lt;=unix_timestamp(#{deal_dateTo}) </if>
+			<if test="deal_date != null"> AND a.DEAL_DATE =#{deal_date} </if>
+			<if test="cash_img != null"> AND a.CASH_IMG =#{cash_img} </if>
+			<if test="search != null"> AND CONCAT(CONCAT(b.shop_name,''),' ',CONCAT(b.shop_tel,''),' ',CONCAT(a.CASH_CODE,'')) like '%${search}%' </if>
+		</trim>  
+	</select>
+
+	<update id="updatecash_apply" parameterType="Cash_apply">
+		UPDATE cash_apply 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="price != null">PRICE=#{price}, </if>
+			<if test="cash_type != null">CASH_TYPE=#{cash_type}, </if>
+			<if test="cash_info != null">CASH_INFO=#{cash_info}, </if>
+			<if test="cash_status != null">CASH_STATUS=#{cash_status}, </if>
+			<if test="cash_price != null">CASH_PRICE=#{cash_price}, </if>
+			<if test="cash_service != null">CASH_SERVICE=#{cash_service}, </if>
+			<if test="cash_rate != null">CASH_RATE=#{cash_rate}, </if>
+			<if test="cash_code != null">CASH_CODE=#{cash_code}, </if>
+			<if test="cash_deal_id != null">CASH_DEAL_ID=#{cash_deal_id}, </if>
+			<if test="cash_st_dt != null">CASH_ST_DT=#{cash_st_dt}, </if>
+			<if test="cash_ok_dt != null">CASH_OK_DT=#{cash_ok_dt}, </if>
+			<if test="deal_date != null">DEAL_DATE=#{deal_date}, </if>
+			<if test="cash_img != null">CASH_IMG=#{cash_img}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addcash_apply" parameterType="Cash_apply" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO cash_apply 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="price != null">PRICE, </if>
+			<if test="cash_type != null">CASH_TYPE, </if>
+			<if test="cash_info != null">CASH_INFO, </if>
+			<if test="cash_status != null">CASH_STATUS, </if>
+			<if test="cash_price != null">CASH_PRICE, </if>
+			<if test="cash_service != null">CASH_SERVICE, </if>
+			<if test="cash_rate != null">CASH_RATE, </if>
+			<if test="cash_code != null">CASH_CODE, </if>
+			<if test="cash_deal_id != null">CASH_DEAL_ID, </if>
+			<if test="cash_st_dt != null">CASH_ST_DT, </if>
+			<if test="cash_ok_dt != null">CASH_OK_DT, </if>
+			<if test="deal_date != null">DEAL_DATE, </if>
+			<if test="cash_img != null">CASH_IMG, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="price != null">#{price}, </if>
+			<if test="cash_type != null">#{cash_type}, </if>
+			<if test="cash_info != null">#{cash_info}, </if>
+			<if test="cash_status != null">#{cash_status}, </if>
+			<if test="cash_price != null">#{cash_price}, </if>
+			<if test="cash_service != null">#{cash_service}, </if>
+			<if test="cash_rate != null">#{cash_rate}, </if>
+			<if test="cash_code != null">#{cash_code}, </if>
+			<if test="cash_deal_id != null">#{cash_deal_id}, </if>
+			<if test="cash_st_dt != null">#{cash_st_dt}, </if>
+			<if test="cash_ok_dt != null">#{cash_ok_dt}, </if>
+			<if test="deal_date != null">#{deal_date}, </if>
+			<if test="cash_img != null">#{cash_img}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdcash_apply" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO cash_apply 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.price != null">PRICE, </if>
+				<if test="item.cash_type != null">CASH_TYPE, </if>
+				<if test="item.cash_info != null">CASH_INFO, </if>
+				<if test="item.cash_status != null">CASH_STATUS, </if>
+				<if test="item.cash_price != null">CASH_PRICE, </if>
+				<if test="item.cash_service != null">CASH_SERVICE, </if>
+				<if test="item.cash_rate != null">CASH_RATE, </if>
+				<if test="item.cash_code != null">CASH_CODE, </if>
+				<if test="item.cash_deal_id != null">CASH_DEAL_ID, </if>
+				<if test="item.cash_st_dt != null">CASH_ST_DT, </if>
+				<if test="item.cash_ok_dt != null">CASH_OK_DT, </if>
+				<if test="item.deal_date != null">DEAL_DATE, </if>
+				<if test="item.cash_img != null">CASH_IMG, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.price != null">#{item.price}, </if>
+				<if test="item.cash_type != null">#{item.cash_type}, </if>
+				<if test="item.cash_info != null">#{item.cash_info}, </if>
+				<if test="item.cash_status != null">#{item.cash_status}, </if>
+				<if test="item.cash_price != null">#{item.cash_price}, </if>
+				<if test="item.cash_service != null">#{item.cash_service}, </if>
+				<if test="item.cash_rate != null">#{item.cash_rate}, </if>
+				<if test="item.cash_code != null">#{item.cash_code}, </if>
+				<if test="item.cash_deal_id != null">#{item.cash_deal_id}, </if>
+				<if test="item.cash_st_dt != null">#{item.cash_st_dt}, </if>
+				<if test="item.cash_ok_dt != null">#{item.cash_ok_dt}, </if>
+				<if test="item.deal_date != null">#{item.deal_date}, </if>
+				<if test="item.cash_img != null">#{item.cash_img}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

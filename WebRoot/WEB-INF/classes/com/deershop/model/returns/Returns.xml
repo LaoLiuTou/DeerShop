@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.returns.IReturnsMapper"> 
+	<select id="selectreturnsById" parameterType="String" resultType="Returns">
+		SELECT a.* ,b.shop_name AS shop_name, c.amount as amount ,
+		d.goods_name as goods_name,d.goods_num as goods_num, d.img as img ,e.order_num as order_num 
+		FROM returns a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN order_item c ON a.order_item_ids=c.id  
+		LEFT JOIN goods d ON c.goods_id=d.id  
+		LEFT JOIN orders e ON a.orders_id=e.id  
+		WHERE a.ID=#{id}
+	</select>
+
+	<delete id="deletereturns" parameterType="String"> 
+		DELETE FROM returns WHERE ID=#{id}
+	</delete>
+
+	<select id="selectreturnsByParam" parameterType="java.util.Map" resultType="Returns">
+		SELECT a.* ,b.shop_name AS shop_name, c.amount as amount ,
+		d.goods_name as goods_name,d.goods_num as goods_num, d.img as img ,e.order_num as order_num,
+		TIMESTAMPDIFF(MINUTE,a.submit_dt,NOW()) as timediff 
+		FROM returns a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN order_item c ON a.order_item_ids=c.id  
+		LEFT JOIN goods d ON c.goods_id=d.id  
+		LEFT JOIN orders e ON a.orders_id=e.id  
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="buyer_id != null"> AND a.BUYER_ID =#{buyer_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="orders_id != null"> AND a.ORDERS_ID =#{orders_id} </if>
+			<if test="order_item_ids != null"> AND a.ORDER_ITEM_IDS =#{order_item_ids} </if>
+			<if test="initiator != null"> AND a.INITIATOR =#{initiator} </if>
+			<if test="return_type != null"> AND a.RETURN_TYPE =#{return_type} </if>
+			<if test="return_img != null"> AND a.RETURN_IMG =#{return_img} </if>
+			<if test="problem != null"> AND a.PROBLEM =#{problem} </if>
+			<if test="send_type != null"> AND a.SEND_TYPE =#{send_type} </if>
+			<if test="return_price != null"> AND a.RETURN_PRICE =#{return_price} </if>
+			<if test="express != null"> AND a.EXPRESS =#{express} </if>
+			<if test="express_code != null"> AND a.EXPRESS_CODE =#{express_code} </if>
+			<if test="is_agree != null"> AND a.IS_AGREE =#{is_agree} </if>
+			<if test="is_send != null"> AND a.IS_SEND =#{is_send} </if>
+			<if test="is_take != null"> AND a.IS_TAKE =#{is_take} </if>
+			<if test="is_return != null"> AND a.IS_RETURN =#{is_return} </if>
+			<if test="submit_dtFrom != null"> AND unix_timestamp(a.SUBMIT_DT) &gt;=unix_timestamp(#{submit_dtFrom}) </if>
+			<if test="submit_dtTo != null"> AND unix_timestamp(a.SUBMIT_DT) &lt;=unix_timestamp(#{submit_dtTo}) </if>
+			<if test="submit_dt != null"> AND a.SUBMIT_DT =#{submit_dt} </if>
+			<if test="agree_dtFrom != null"> AND unix_timestamp(a.AGREE_DT) &gt;=unix_timestamp(#{agree_dtFrom}) </if>
+			<if test="agree_dtTo != null"> AND unix_timestamp(a.AGREE_DT) &lt;=unix_timestamp(#{agree_dtTo}) </if>
+			<if test="agree_dt != null"> AND a.AGREE_DT =#{agree_dt} </if>
+			<if test="send_dtFrom != null"> AND unix_timestamp(a.SEND_DT) &gt;=unix_timestamp(#{send_dtFrom}) </if>
+			<if test="send_dtTo != null"> AND unix_timestamp(a.SEND_DT) &lt;=unix_timestamp(#{send_dtTo}) </if>
+			<if test="send_dt != null"> AND a.SEND_DT =#{send_dt} </if>
+			<if test="take_dtFrom != null"> AND unix_timestamp(a.TAKE_DT) &gt;=unix_timestamp(#{take_dtFrom}) </if>
+			<if test="take_dtTo != null"> AND unix_timestamp(a.TAKE_DT) &lt;=unix_timestamp(#{take_dtTo}) </if>
+			<if test="take_dt != null"> AND a.TAKE_DT =#{take_dt} </if>
+			<if test="return_dtFrom != null"> AND unix_timestamp(a.RETURN_DT) &gt;=unix_timestamp(#{return_dtFrom}) </if>
+			<if test="return_dtTo != null"> AND unix_timestamp(a.RETURN_DT) &lt;=unix_timestamp(#{return_dtTo}) </if>
+			<if test="return_dt != null"> AND a.RETURN_DT =#{return_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="return_code != null"> AND a.RETURN_CODE =#{return_code} </if>
+			<if test="return_ctg != null"> AND a.RETURN_CTG like #{return_ctg} </if>
+			<if test="refuse_reason != null"> AND a.REFUSE_REASON like #{refuse_reason} </if>
+			<if test="refuse_img != null"> AND a.REFUSE_IMG like #{refuse_img} </if>
+			<if test="order_num != null"> AND e.ORDER_NUM like #{order_num} </if>
+			<if test="is_pay != null"> AND e.IS_PAY = #{is_pay} </if>
+			<if test="is_deliver != null"> AND e.IS_DELIVER = #{is_deliver} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountreturnsByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(a.id) 
+		FROM returns a  
+		LEFT JOIN orders e ON a.orders_id=e.id  
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="buyer_id != null"> AND a.BUYER_ID =#{buyer_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="orders_id != null"> AND a.ORDERS_ID =#{orders_id} </if>
+			<if test="order_item_ids != null"> AND a.ORDER_ITEM_IDS =#{order_item_ids} </if>
+			<if test="initiator != null"> AND a.INITIATOR =#{initiator} </if>
+			<if test="return_type != null"> AND a.RETURN_TYPE =#{return_type} </if>
+			<if test="return_img != null"> AND a.RETURN_IMG =#{return_img} </if>
+			<if test="problem != null"> AND a.PROBLEM =#{problem} </if>
+			<if test="send_type != null"> AND a.SEND_TYPE =#{send_type} </if>
+			<if test="return_price != null"> AND a.RETURN_PRICE =#{return_price} </if>
+			<if test="express != null"> AND a.EXPRESS =#{express} </if>
+			<if test="express_code != null"> AND a.EXPRESS_CODE =#{express_code} </if>
+			<if test="is_agree != null"> AND a.IS_AGREE =#{is_agree} </if>
+			<if test="is_send != null"> AND a.IS_SEND =#{is_send} </if>
+			<if test="is_take != null"> AND a.IS_TAKE =#{is_take} </if>
+			<if test="is_return != null"> AND a.IS_RETURN =#{is_return} </if>
+			<if test="submit_dtFrom != null"> AND unix_timestamp(a.SUBMIT_DT) &gt;=unix_timestamp(#{submit_dtFrom}) </if>
+			<if test="submit_dtTo != null"> AND unix_timestamp(a.SUBMIT_DT) &lt;=unix_timestamp(#{submit_dtTo}) </if>
+			<if test="submit_dt != null"> AND a.SUBMIT_DT =#{submit_dt} </if>
+			<if test="agree_dtFrom != null"> AND unix_timestamp(a.AGREE_DT) &gt;=unix_timestamp(#{agree_dtFrom}) </if>
+			<if test="agree_dtTo != null"> AND unix_timestamp(a.AGREE_DT) &lt;=unix_timestamp(#{agree_dtTo}) </if>
+			<if test="agree_dt != null"> AND a.AGREE_DT =#{agree_dt} </if>
+			<if test="send_dtFrom != null"> AND unix_timestamp(a.SEND_DT) &gt;=unix_timestamp(#{send_dtFrom}) </if>
+			<if test="send_dtTo != null"> AND unix_timestamp(a.SEND_DT) &lt;=unix_timestamp(#{send_dtTo}) </if>
+			<if test="send_dt != null"> AND a.SEND_DT =#{send_dt} </if>
+			<if test="take_dtFrom != null"> AND unix_timestamp(a.TAKE_DT) &gt;=unix_timestamp(#{take_dtFrom}) </if>
+			<if test="take_dtTo != null"> AND unix_timestamp(a.TAKE_DT) &lt;=unix_timestamp(#{take_dtTo}) </if>
+			<if test="take_dt != null"> AND a.TAKE_DT =#{take_dt} </if>
+			<if test="return_dtFrom != null"> AND unix_timestamp(a.RETURN_DT) &gt;=unix_timestamp(#{return_dtFrom}) </if>
+			<if test="return_dtTo != null"> AND unix_timestamp(a.RETURN_DT) &lt;=unix_timestamp(#{return_dtTo}) </if>
+			<if test="return_dt != null"> AND a.RETURN_DT =#{return_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="return_code != null"> AND a.RETURN_CODE =#{return_code} </if>
+			<if test="return_ctg != null"> AND a.RETURN_CTG like #{return_ctg} </if>
+			<if test="refuse_reason != null"> AND a.REFUSE_REASON like #{refuse_reason} </if>
+			<if test="refuse_img != null"> AND a.REFUSE_IMG like #{refuse_img} </if>
+			<if test="order_num != null"> AND e.ORDER_NUM like #{order_num} </if>
+			<if test="is_pay != null"> AND e.IS_PAY = #{is_pay} </if>
+			<if test="is_deliver != null"> AND e.IS_DELIVER = #{is_deliver} </if>
+		</trim>  
+	</select>
+
+	<update id="updatereturns" parameterType="Returns">
+		UPDATE returns 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="buyer_id != null">BUYER_ID=#{buyer_id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="orders_id != null">ORDERS_ID=#{orders_id}, </if>
+			<if test="order_item_ids != null">ORDER_ITEM_IDS=#{order_item_ids}, </if>
+			<if test="initiator != null">INITIATOR=#{initiator}, </if>
+			<if test="return_type != null">RETURN_TYPE=#{return_type}, </if>
+			<if test="return_img != null">RETURN_IMG=#{return_img}, </if>
+			<if test="problem != null">PROBLEM=#{problem}, </if>
+			<if test="send_type != null">SEND_TYPE=#{send_type}, </if>
+			<if test="return_price != null">RETURN_PRICE=#{return_price}, </if>
+			<if test="express != null">EXPRESS=#{express}, </if>
+			<if test="express_code != null">EXPRESS_CODE=#{express_code}, </if>
+			<if test="is_agree != null">IS_AGREE=#{is_agree}, </if>
+			<if test="is_send != null">IS_SEND=#{is_send}, </if>
+			<if test="is_take != null">IS_TAKE=#{is_take}, </if>
+			<if test="is_return != null">IS_RETURN=#{is_return}, </if>
+			<if test="submit_dt != null">SUBMIT_DT=#{submit_dt}, </if>
+			<if test="agree_dt != null">AGREE_DT=#{agree_dt}, </if>
+			<if test="send_dt != null">SEND_DT=#{send_dt}, </if>
+			<if test="take_dt != null">TAKE_DT=#{take_dt}, </if>
+			<if test="return_dt != null">RETURN_DT=#{return_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="return_code != null">RETURN_CODE=#{return_code}, </if>
+			<if test="return_ctg != null">RETURN_CTG=#{return_ctg}, </if>
+			<if test="refuse_reason != null">REFUSE_REASON=#{refuse_reason}, </if>
+			<if test="refuse_img != null">REFUSE_IMG=#{refuse_img}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addreturns" parameterType="Returns" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO returns 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="buyer_id != null">BUYER_ID, </if>
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="orders_id != null">ORDERS_ID, </if>
+			<if test="order_item_ids != null">ORDER_ITEM_IDS, </if>
+			<if test="initiator != null">INITIATOR, </if>
+			<if test="return_type != null">RETURN_TYPE, </if>
+			<if test="return_img != null">RETURN_IMG, </if>
+			<if test="problem != null">PROBLEM, </if>
+			<if test="send_type != null">SEND_TYPE, </if>
+			<if test="return_price != null">RETURN_PRICE, </if>
+			<if test="express != null">EXPRESS, </if>
+			<if test="express_code != null">EXPRESS_CODE, </if>
+			<if test="is_agree != null">IS_AGREE, </if>
+			<if test="is_send != null">IS_SEND, </if>
+			<if test="is_take != null">IS_TAKE, </if>
+			<if test="is_return != null">IS_RETURN, </if>
+			<if test="submit_dt != null">SUBMIT_DT, </if>
+			<if test="agree_dt != null">AGREE_DT, </if>
+			<if test="send_dt != null">SEND_DT, </if>
+			<if test="take_dt != null">TAKE_DT, </if>
+			<if test="return_dt != null">RETURN_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="return_code != null">RETURN_CODE, </if>
+			<if test="return_ctg != null">RETURN_CTG, </if>
+			<if test="refuse_reason != null">REFUSE_REASON, </if>
+			<if test="refuse_img != null">REFUSE_IMG, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="buyer_id != null">#{buyer_id}, </if>
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="orders_id != null">#{orders_id}, </if>
+			<if test="order_item_ids != null">#{order_item_ids}, </if>
+			<if test="initiator != null">#{initiator}, </if>
+			<if test="return_type != null">#{return_type}, </if>
+			<if test="return_img != null">#{return_img}, </if>
+			<if test="problem != null">#{problem}, </if>
+			<if test="send_type != null">#{send_type}, </if>
+			<if test="return_price != null">#{return_price}, </if>
+			<if test="express != null">#{express}, </if>
+			<if test="express_code != null">#{express_code}, </if>
+			<if test="is_agree != null">#{is_agree}, </if>
+			<if test="is_send != null">#{is_send}, </if>
+			<if test="is_take != null">#{is_take}, </if>
+			<if test="is_return != null">#{is_return}, </if>
+			<if test="submit_dt != null">#{submit_dt}, </if>
+			<if test="agree_dt != null">#{agree_dt}, </if>
+			<if test="send_dt != null">#{send_dt}, </if>
+			<if test="take_dt != null">#{take_dt}, </if>
+			<if test="return_dt != null">#{return_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="return_code != null">#{return_code}, </if>
+			<if test="return_ctg != null">#{return_ctg}, </if>
+			<if test="refuse_reason != null">#{refuse_reason}, </if>
+			<if test="refuse_img != null">#{refuse_img}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdreturns" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO returns 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.buyer_id != null">BUYER_ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.orders_id != null">ORDERS_ID, </if>
+				<if test="item.order_item_ids != null">ORDER_ITEM_IDS, </if>
+				<if test="item.initiator != null">INITIATOR, </if>
+				<if test="item.return_type != null">RETURN_TYPE, </if>
+				<if test="item.return_img != null">RETURN_IMG, </if>
+				<if test="item.problem != null">PROBLEM, </if>
+				<if test="item.send_type != null">SEND_TYPE, </if>
+				<if test="item.return_price != null">RETURN_PRICE, </if>
+				<if test="item.express != null">EXPRESS, </if>
+				<if test="item.express_code != null">EXPRESS_CODE, </if>
+				<if test="item.is_agree != null">IS_AGREE, </if>
+				<if test="item.is_send != null">IS_SEND, </if>
+				<if test="item.is_take != null">IS_TAKE, </if>
+				<if test="item.is_return != null">IS_RETURN, </if>
+				<if test="item.submit_dt != null">SUBMIT_DT, </if>
+				<if test="item.agree_dt != null">AGREE_DT, </if>
+				<if test="item.send_dt != null">SEND_DT, </if>
+				<if test="item.take_dt != null">TAKE_DT, </if>
+				<if test="item.return_dt != null">RETURN_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.return_code != null">RETURN_CODE, </if>
+				<if test="item.return_ctg != null">RETURN_CTG, </if>
+				<if test="item.refuse_reason != null">REFUSE_REASON, </if>
+				<if test="item.refuse_img != null">REFUSE_IMG, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.buyer_id != null">#{item.buyer_id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.orders_id != null">#{item.orders_id}, </if>
+				<if test="item.order_item_ids != null">#{item.order_item_ids}, </if>
+				<if test="item.initiator != null">#{item.initiator}, </if>
+				<if test="item.return_type != null">#{item.return_type}, </if>
+				<if test="item.return_img != null">#{item.return_img}, </if>
+				<if test="item.problem != null">#{item.problem}, </if>
+				<if test="item.send_type != null">#{item.send_type}, </if>
+				<if test="item.return_price != null">#{item.return_price}, </if>
+				<if test="item.express != null">#{item.express}, </if>
+				<if test="item.express_code != null">#{item.express_code}, </if>
+				<if test="item.is_agree != null">#{item.is_agree}, </if>
+				<if test="item.is_send != null">#{item.is_send}, </if>
+				<if test="item.is_take != null">#{item.is_take}, </if>
+				<if test="item.is_return != null">#{item.is_return}, </if>
+				<if test="item.submit_dt != null">#{item.submit_dt}, </if>
+				<if test="item.agree_dt != null">#{item.agree_dt}, </if>
+				<if test="item.send_dt != null">#{item.send_dt}, </if>
+				<if test="item.take_dt != null">#{item.take_dt}, </if>
+				<if test="item.return_dt != null">#{item.return_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.return_code != null">#{item.return_code}, </if>
+				<if test="item.return_ctg != null">#{item.return_ctg}, </if>
+				<if test="item.refuse_reason != null">#{item.refuse_reason}, </if>
+				<if test="item.refuse_img != null">#{item.refuse_img}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

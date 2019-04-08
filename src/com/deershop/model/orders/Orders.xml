@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.orders.IOrdersMapper"> 
+	<select id="selectordersById" parameterType="String" resultType="Orders">
+		SELECT a.*,b.shop_name AS shop_name ,c.express_code as express_code,
+		c.send_dt as send_dt ,d.area_name as sheng,e.area_name as shi,
+		f.area_name as qu ,c.express_name as express_name,
+		TIMESTAMPDIFF(HOUR,a.create_dt,NOW()) as timediff, 
+		CASE WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待支付' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待发货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待收货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='Y' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '已完成' 
+			 WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='Y' AND a.is_close='N' AND a.is_delete='N' THEN '已取消' 
+			 WHEN a.is_close='Y' AND a.is_delete='N' THEN '已关闭' 
+			 ELSE '状态异常' END order_status 
+		FROM orders a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN send c ON a.id=c.orders_id 
+		LEFT JOIN area d ON a.sheng_id=d.id  
+		LEFT JOIN area e ON a.shi_id=e.id  
+		LEFT JOIN area f ON a.qu_id=f.id  
+		WHERE a.ID=#{id} AND is_delete='N' 
+	</select>
+	<select id="selectordersByIdApp" parameterType="String" resultType="Orders">
+		SELECT a.*,b.shop_name AS shop_name ,c.express_code as express_code,
+		c.send_dt as send_dt ,d.area_name as sheng,e.area_name as shi,
+		f.area_name as qu ,c.express_name as express_name,
+		TIMESTAMPDIFF(HOUR,a.create_dt,NOW()) as timediff, 
+		CASE WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待支付' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待发货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待收货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='Y' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '已完成' 
+			 WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='Y' AND a.is_close='N' AND a.is_delete='N' THEN '已取消' 
+			 WHEN a.is_close='Y' AND a.is_delete='N' THEN '已关闭' 
+			 ELSE '状态异常' END order_status 
+		FROM orders a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN send c ON a.id=c.orders_id 
+		LEFT JOIN area d ON a.sheng_id=d.id  
+		LEFT JOIN area e ON a.shi_id=e.id  
+		LEFT JOIN area f ON a.qu_id=f.id  
+		WHERE a.ID=#{id} AND is_delete_app='N' 
+	</select>
+	<select id="selectcdordersById" parameterType="String" resultType="Orders">
+		SELECT a.*,b.shop_name AS shop_name ,c.express_code as express_code,
+		c.send_dt as send_dt ,d.area_name as sheng,e.area_name as shi,
+		f.area_name as qu ,c.express_name as express_name,
+		TIMESTAMPDIFF(HOUR,a.create_dt,NOW()) as timediff, 
+		CASE WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待支付' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待发货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待收货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='Y' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '已完成' 
+			 WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='Y' AND a.is_close='N' AND a.is_delete='N' THEN '已取消' 
+			 WHEN a.is_close='Y' AND a.is_delete='N' THEN '已关闭' 
+			 ELSE '状态异常' END order_status 
+		FROM orders a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN send c ON a.id=c.orders_id 
+		LEFT JOIN area d ON a.sheng_id=d.id  
+		LEFT JOIN area e ON a.shi_id=e.id  
+		LEFT JOIN area f ON a.qu_id=f.id  
+		WHERE a.ID=#{id}  
+	</select>
+
+	<delete id="deleteorders" parameterType="String"> 
+		DELETE FROM orders WHERE ID=#{id}
+	</delete>
+
+	<select id="selectordersByParam" parameterType="java.util.Map" resultType="Orders">
+		SELECT a.*,b.shop_name AS shop_name ,c.express_code as express_code,
+		c.send_dt as send_dt ,d.area_name as sheng,e.area_name as shi,
+		f.area_name as qu ,
+		TIMESTAMPDIFF(HOUR,a.create_dt,NOW()) as timediff, 
+		CASE WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待支付' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待发货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='N' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '待收货' 
+			 WHEN a.is_pay='Y' AND a.is_deliver='Y' AND a.is_confirm='Y' AND a.is_cancel='N' AND a.is_close='N' AND a.is_delete='N' THEN '已完成' 
+			 WHEN a.is_pay='N' AND a.is_deliver='N' AND a.is_confirm='N' AND a.is_cancel='Y' AND a.is_close='N' AND a.is_delete='N' THEN '已取消' 
+			 WHEN a.is_close='Y' AND a.is_delete='N' THEN '已关闭' 
+			 ELSE '状态异常' END order_status 
+		FROM orders a 
+		LEFT JOIN seller b ON a.seller_id=b.id 
+		LEFT JOIN send c ON a.id=c.orders_id 
+		LEFT JOIN area d ON a.sheng_id=d.id  
+		LEFT JOIN area e ON a.shi_id=e.id  
+		LEFT JOIN area f ON a.qu_id=f.id  
+		
+		
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND a.SELLER_ID =#{seller_id} </if>
+			<if test="buyer_id != null"> AND a.BUYER_ID =#{buyer_id} </if>
+			<if test="all_price != null"> AND a.ALL_PRICE =#{all_price} </if>
+			<if test="all_goods_price != null"> AND a.ALL_GOODS_PRICE =#{all_goods_price} </if>
+			<if test="postage_price != null"> AND a.POSTAGE_PRICE =#{postage_price} </if>
+			<if test="promotion_price != null"> AND a.PROMOTION_PRICE =#{promotion_price} </if>
+			<if test="discount_price != null"> AND a.DISCOUNT_PRICE =#{discount_price} </if>
+			<if test="full_discount_price != null"> AND a.FULL_DISCOUNT_PRICE =#{full_discount_price} </if>
+			<if test="concession_price != null"> AND a.CONCESSION_PRICE =#{concession_price} </if>
+			<if test="real_price != null"> AND a.REAL_PRICE =#{real_price} </if>
+			<if test="point != null"> AND a.POINT =#{point} </if>
+			<if test="pay_type != null"> AND a.PAY_TYPE =#{pay_type} </if>
+			<if test="pay_info != null"> AND a.PAY_INFO =#{pay_info} </if>
+			<if test="is_pay != null"> AND a.IS_PAY =#{is_pay} </if>
+			<if test="is_split != null"> AND a.IS_SPLIT =#{is_split} </if>
+			<if test="is_deliver != null"> AND a.IS_DELIVER =#{is_deliver} </if>
+			<if test="is_confirm != null"> AND a.IS_CONFIRM =#{is_confirm} </if>
+			<if test="is_evaluate != null"> AND a.IS_EVALUATE =#{is_evaluate} </if>
+			<if test="is_cancel != null"> AND a.IS_CANCEL =#{is_cancel} </if>
+			<if test="is_close != null"> AND a.IS_CLOSE =#{is_close} </if>
+			<if test="is_delete != null"> AND a.IS_DELETE =#{is_delete} </if>
+			<if test="is_delete_app != null"> AND a.IS_DELETE_APP =#{is_delete_app} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(a.CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(a.CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND a.CREATE_DT =#{create_dt} </if>
+			<if test="pay_dtFrom != null"> AND unix_timestamp(a.PAY_DT) &gt;=unix_timestamp(#{pay_dtFrom}) </if>
+			<if test="pay_dtTo != null"> AND unix_timestamp(a.PAY_DT) &lt;=unix_timestamp(#{pay_dtTo}) </if>
+			<if test="pay_dt != null"> AND a.PAY_DT =#{pay_dt} </if>
+			<if test="complete_dtFrom != null"> AND unix_timestamp(a.COMPLETE_DT) &gt;=unix_timestamp(#{complete_dtFrom}) </if>
+			<if test="complete_dtTo != null"> AND unix_timestamp(a.COMPLETE_DT) &lt;=unix_timestamp(#{complete_dtTo}) </if>
+			<if test="complete_dt != null"> AND a.COMPLETE_DT =#{complete_dt} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+			<if test="order_num != null"> AND a.ORDER_NUM like #{order_num} </if>
+			<if test="buyer_remark != null"> AND a.BUYER_REMARK =#{buyer_remark} </if>
+			<if test="seller_remark != null"> AND a.SELLER_REMARK =#{seller_remark} </if>
+			<if test="sheng_id != null"> AND a.SHENG_ID =#{sheng_id} </if>
+			<if test="shi_id != null"> AND a.SHI_ID =#{shi_id} </if>
+			<if test="qu_id != null"> AND a.QU_ID =#{qu_id} </if>
+			<if test="addr != null"> AND a.ADDR =#{addr} </if>
+			<if test="receiver != null"> AND a.RECEIVER =#{receiver} </if>
+			<if test="receiver_tel != null"> AND a.RECEIVER_TEL =#{receiver_tel} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountordersByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM orders 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="seller_id != null"> AND SELLER_ID =#{seller_id} </if>
+			<if test="buyer_id != null"> AND BUYER_ID =#{buyer_id} </if>
+			<if test="all_price != null"> AND ALL_PRICE =#{all_price} </if>
+			<if test="all_goods_price != null"> AND ALL_GOODS_PRICE =#{all_goods_price} </if>
+			<if test="postage_price != null"> AND POSTAGE_PRICE =#{postage_price} </if>
+			<if test="promotion_price != null"> AND PROMOTION_PRICE =#{promotion_price} </if>
+			<if test="discount_price != null"> AND DISCOUNT_PRICE =#{discount_price} </if>
+			<if test="full_discount_price != null"> AND FULL_DISCOUNT_PRICE =#{full_discount_price} </if>
+			<if test="concession_price != null"> AND CONCESSION_PRICE =#{concession_price} </if>
+			<if test="real_price != null"> AND REAL_PRICE =#{real_price} </if>
+			<if test="point != null"> AND POINT =#{point} </if>
+			<if test="pay_type != null"> AND PAY_TYPE =#{pay_type} </if>
+			<if test="pay_info != null"> AND PAY_INFO =#{pay_info} </if>
+			<if test="is_pay != null"> AND IS_PAY =#{is_pay} </if>
+			<if test="is_split != null"> AND IS_SPLIT =#{is_split} </if>
+			<if test="is_deliver != null"> AND IS_DELIVER =#{is_deliver} </if>
+			<if test="is_confirm != null"> AND IS_CONFIRM =#{is_confirm} </if>
+			<if test="is_evaluate != null"> AND IS_EVALUATE =#{is_evaluate} </if>
+			<if test="is_cancel != null"> AND IS_CANCEL =#{is_cancel} </if>
+			<if test="is_close != null"> AND IS_CLOSE =#{is_close} </if>
+			<if test="is_delete != null"> AND IS_DELETE =#{is_delete} </if>
+			<if test="is_delete_app != null"> AND IS_DELETE_APP =#{is_delete_app} </if>
+			<if test="create_dtFrom != null"> AND unix_timestamp(CREATE_DT) &gt;=unix_timestamp(#{create_dtFrom}) </if>
+			<if test="create_dtTo != null"> AND unix_timestamp(CREATE_DT) &lt;=unix_timestamp(#{create_dtTo}) </if>
+			<if test="create_dt != null"> AND CREATE_DT =#{create_dt} </if>
+			<if test="pay_dtFrom != null"> AND unix_timestamp(PAY_DT) &gt;=unix_timestamp(#{pay_dtFrom}) </if>
+			<if test="pay_dtTo != null"> AND unix_timestamp(PAY_DT) &lt;=unix_timestamp(#{pay_dtTo}) </if>
+			<if test="pay_dt != null"> AND PAY_DT =#{pay_dt} </if>
+			<if test="complete_dtFrom != null"> AND unix_timestamp(COMPLETE_DT) &gt;=unix_timestamp(#{complete_dtFrom}) </if>
+			<if test="complete_dtTo != null"> AND unix_timestamp(COMPLETE_DT) &lt;=unix_timestamp(#{complete_dtTo}) </if>
+			<if test="complete_dt != null"> AND COMPLETE_DT =#{complete_dt} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="order_num != null"> AND ORDER_NUM like #{order_num} </if>
+			<if test="buyer_remark != null"> AND BUYER_REMARK =#{buyer_remark} </if>
+			<if test="seller_remark != null"> AND SELLER_REMARK =#{seller_remark} </if>
+			<if test="sheng_id != null"> AND SHENG_ID =#{sheng_id} </if>
+			<if test="shi_id != null"> AND SHI_ID =#{shi_id} </if>
+			<if test="qu_id != null"> AND QU_ID =#{qu_id} </if>
+			<if test="addr != null"> AND ADDR =#{addr} </if>
+			<if test="receiver != null"> AND RECEIVER =#{receiver} </if>
+			<if test="receiver_tel != null"> AND RECEIVER_TEL =#{receiver_tel} </if>
+		</trim>  
+	</select>
+
+	<update id="updateorders" parameterType="Orders">
+		UPDATE orders 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="buyer_id != null">BUYER_ID=#{buyer_id}, </if>
+			<if test="all_price != null">ALL_PRICE=#{all_price}, </if>
+			<if test="all_goods_price != null">ALL_GOODS_PRICE=#{all_goods_price}, </if>
+			<if test="postage_price != null">POSTAGE_PRICE=#{postage_price}, </if>
+			<if test="promotion_price != null">PROMOTION_PRICE=#{promotion_price}, </if>
+			<if test="discount_price != null">DISCOUNT_PRICE=#{discount_price}, </if>
+			<if test="full_discount_price != null">FULL_DISCOUNT_PRICE=#{full_discount_price}, </if>
+			<if test="concession_price != null">CONCESSION_PRICE=#{concession_price}, </if>
+			<if test="real_price != null">REAL_PRICE=#{real_price}, </if>
+			<if test="point != null">POINT=#{point}, </if>
+			<if test="pay_type != null">PAY_TYPE=#{pay_type}, </if>
+			<if test="pay_info != null">PAY_INFO=#{pay_info}, </if>
+			<if test="is_pay != null">IS_PAY=#{is_pay}, </if>
+			<if test="is_split != null">IS_SPLIT=#{is_split}, </if>
+			<if test="is_deliver != null">IS_DELIVER=#{is_deliver}, </if>
+			<if test="is_confirm != null">IS_CONFIRM=#{is_confirm}, </if>
+			<if test="is_evaluate != null">IS_EVALUATE=#{is_evaluate}, </if>
+			<if test="is_cancel != null">IS_CANCEL=#{is_cancel}, </if>
+			<if test="is_close != null">IS_CLOSE=#{is_close}, </if>
+			<if test="is_delete != null">IS_DELETE=#{is_delete}, </if>
+			<if test="is_delete_app != null">IS_DELETE_APP=#{is_delete_app}, </if>
+			<if test="create_dt != null">CREATE_DT=#{create_dt}, </if>
+			<if test="pay_dt != null">PAY_DT=#{pay_dt}, </if>
+			<if test="complete_dt != null">COMPLETE_DT=#{complete_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="order_num != null">ORDER_NUM=#{order_num}, </if>
+			<if test="buyer_remark != null">BUYER_REMARK=#{buyer_remark}, </if>
+			<if test="seller_remark != null">SELLER_REMARK=#{seller_remark}, </if>
+			<if test="sheng_id != null">SHENG_ID=#{sheng_id}, </if>
+			<if test="shi_id != null">SHI_ID=#{shi_id}, </if>
+			<if test="qu_id != null">QU_ID=#{qu_id}, </if>
+			<if test="addr != null">ADDR=#{addr}, </if>
+			<if test="receiver != null">RECEIVER=#{receiver}, </if>
+			<if test="receiver_tel != null">RECEIVER_TEL=#{receiver_tel}, </if>
+			
+		</trim>
+		WHERE ID=#{id}
+	</update>
+	<update id="updateByOrdernum" parameterType="Orders">
+		UPDATE orders 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="seller_id != null">SELLER_ID=#{seller_id}, </if>
+			<if test="buyer_id != null">BUYER_ID=#{buyer_id}, </if>
+			<if test="all_price != null">ALL_PRICE=#{all_price}, </if>
+			<if test="all_goods_price != null">ALL_GOODS_PRICE=#{all_goods_price}, </if>
+			<if test="postage_price != null">POSTAGE_PRICE=#{postage_price}, </if>
+			<if test="promotion_price != null">PROMOTION_PRICE=#{promotion_price}, </if>
+			<if test="discount_price != null">DISCOUNT_PRICE=#{discount_price}, </if>
+			<if test="full_discount_price != null">FULL_DISCOUNT_PRICE=#{full_discount_price}, </if>
+			<if test="concession_price != null">CONCESSION_PRICE=#{concession_price}, </if>
+			<if test="real_price != null">REAL_PRICE=#{real_price}, </if>
+			<if test="point != null">POINT=#{point}, </if>
+			<if test="pay_type != null">PAY_TYPE=#{pay_type}, </if>
+			<if test="pay_info != null">PAY_INFO=#{pay_info}, </if>
+			<if test="is_pay != null">IS_PAY=#{is_pay}, </if>
+			<if test="is_split != null">IS_SPLIT=#{is_split}, </if>
+			<if test="is_deliver != null">IS_DELIVER=#{is_deliver}, </if>
+			<if test="is_confirm != null">IS_CONFIRM=#{is_confirm}, </if>
+			<if test="is_evaluate != null">IS_EVALUATE=#{is_evaluate}, </if>
+			<if test="is_cancel != null">IS_CANCEL=#{is_cancel}, </if>
+			<if test="is_close != null">IS_CLOSE=#{is_close}, </if>
+			<if test="is_delete != null">IS_DELETE=#{is_delete}, </if>
+			<if test="is_delete_app != null">IS_DELETE_APP=#{is_delete_app}, </if>
+			<if test="create_dt != null">CREATE_DT=#{create_dt}, </if>
+			<if test="pay_dt != null">PAY_DT=#{pay_dt}, </if>
+			<if test="complete_dt != null">COMPLETE_DT=#{complete_dt}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="order_num != null">ORDER_NUM=#{order_num}, </if>
+			<if test="buyer_remark != null">BUYER_REMARK=#{buyer_remark}, </if>
+			<if test="seller_remark != null">SELLER_REMARK=#{seller_remark}, </if>
+			<if test="sheng_id != null">SHENG_ID=#{sheng_id}, </if>
+			<if test="shi_id != null">SHI_ID=#{shi_id}, </if>
+			<if test="qu_id != null">QU_ID=#{qu_id}, </if>
+			<if test="addr != null">ADDR=#{addr}, </if>
+			<if test="receiver != null">RECEIVER=#{receiver}, </if>
+			<if test="receiver_tel != null">RECEIVER_TEL=#{receiver_tel}, </if>
+			
+		</trim>
+		WHERE ORDER_NUM=#{order_num}
+	</update>
+
+	<insert id="addorders" parameterType="Orders" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO orders 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="seller_id != null">SELLER_ID, </if>
+			<if test="buyer_id != null">BUYER_ID, </if>
+			<if test="all_price != null">ALL_PRICE, </if>
+			<if test="all_goods_price != null">ALL_GOODS_PRICE, </if>
+			<if test="postage_price != null">POSTAGE_PRICE, </if>
+			<if test="promotion_price != null">PROMOTION_PRICE, </if>
+			<if test="discount_price != null">DISCOUNT_PRICE, </if>
+			<if test="full_discount_price != null">FULL_DISCOUNT_PRICE, </if>
+			<if test="concession_price != null">CONCESSION_PRICE, </if>
+			<if test="real_price != null">REAL_PRICE, </if>
+			<if test="point != null">POINT, </if>
+			<if test="pay_type != null">PAY_TYPE, </if>
+			<if test="pay_info != null">PAY_INFO, </if>
+			<if test="is_pay != null">IS_PAY, </if>
+			<if test="is_split != null">IS_SPLIT, </if>
+			<if test="is_deliver != null">IS_DELIVER, </if>
+			<if test="is_confirm != null">IS_CONFIRM, </if>
+			<if test="is_evaluate != null">IS_EVALUATE, </if>
+			<if test="is_cancel != null">IS_CANCEL, </if>
+			<if test="is_close != null">IS_CLOSE, </if>
+			<if test="is_delete != null">IS_DELETE, </if>
+			<if test="is_delete_app != null">IS_DELETE_APP, </if>
+			<if test="create_dt != null">CREATE_DT, </if>
+			<if test="pay_dt != null">PAY_DT, </if>
+			<if test="complete_dt != null">COMPLETE_DT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="order_num != null">ORDER_NUM, </if>
+			<if test="buyer_remark != null">BUYER_REMARK, </if>
+			<if test="seller_remark != null">SELLER_REMARK, </if>
+			<if test="sheng_id != null">SHENG_ID, </if>
+			<if test="shi_id != null">SHI_ID, </if>
+			<if test="qu_id != null">QU_ID, </if>
+			<if test="addr != null">ADDR, </if>
+			<if test="receiver != null">RECEIVER, </if>
+			<if test="receiver_tel != null">RECEIVER_TEL, </if>
+			
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="seller_id != null">#{seller_id}, </if>
+			<if test="buyer_id != null">#{buyer_id}, </if>
+			<if test="all_price != null">#{all_price}, </if>
+			<if test="all_goods_price != null">#{all_goods_price}, </if>
+			<if test="postage_price != null">#{postage_price}, </if>
+			<if test="promotion_price != null">#{promotion_price}, </if>
+			<if test="discount_price != null">#{discount_price}, </if>
+			<if test="full_discount_price != null">#{full_discount_price}, </if>
+			<if test="concession_price != null">#{concession_price}, </if>
+			<if test="real_price != null">#{real_price}, </if>
+			<if test="point != null">#{point}, </if>
+			<if test="pay_type != null">#{pay_type}, </if>
+			<if test="pay_info != null">#{pay_info}, </if>
+			<if test="is_pay != null">#{is_pay}, </if>
+			<if test="is_split != null">#{is_split}, </if>
+			<if test="is_deliver != null">#{is_deliver}, </if>
+			<if test="is_confirm != null">#{is_confirm}, </if>
+			<if test="is_evaluate != null">#{is_evaluate}, </if>
+			<if test="is_cancel != null">#{is_cancel}, </if>
+			<if test="is_close != null">#{is_close}, </if>
+			<if test="is_delete != null">#{is_delete}, </if>
+			<if test="is_delete_app != null">#{is_delete_app}, </if>
+			<if test="create_dt != null">#{create_dt}, </if>
+			<if test="pay_dt != null">#{pay_dt}, </if>
+			<if test="complete_dt != null">#{complete_dt}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="order_num != null">#{order_num}, </if>
+			<if test="buyer_remark != null">#{buyer_remark}, </if>
+			<if test="seller_remark != null">#{seller_remark}, </if>
+			<if test="sheng_id != null">#{sheng_id}, </if>
+			<if test="shi_id != null">#{shi_id}, </if>
+			<if test="qu_id != null">#{qu_id}, </if>
+			<if test="addr != null">#{addr}, </if>
+			<if test="receiver != null">#{receiver}, </if>
+			<if test="receiver_tel != null">#{receiver_tel}, </if>
+			
+		</trim>
+	</insert>
+
+	<insert id="muladdorders" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO orders 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.seller_id != null">SELLER_ID, </if>
+				<if test="item.buyer_id != null">BUYER_ID, </if>
+				<if test="item.all_price != null">ALL_PRICE, </if>
+				<if test="item.all_goods_price != null">ALL_GOODS_PRICE, </if>
+				<if test="item.postage_price != null">POSTAGE_PRICE, </if>
+				<if test="item.promotion_price != null">PROMOTION_PRICE, </if>
+				<if test="item.discount_price != null">DISCOUNT_PRICE, </if>
+				<if test="item.full_discount_price != null">FULL_DISCOUNT_PRICE, </if>
+				<if test="item.concession_price != null">CONCESSION_PRICE, </if>
+				<if test="item.real_price != null">REAL_PRICE, </if>
+				<if test="item.point != null">POINT, </if>
+				<if test="item.pay_type != null">PAY_TYPE, </if>
+				<if test="item.pay_info != null">PAY_INFO, </if>
+				<if test="item.is_pay != null">IS_PAY, </if>
+				<if test="item.is_split != null">IS_SPLIT, </if>
+				<if test="item.is_deliver != null">IS_DELIVER, </if>
+				<if test="item.is_confirm != null">IS_CONFIRM, </if>
+				<if test="item.is_evaluate != null">IS_EVALUATE, </if>
+				<if test="item.is_cancel != null">IS_CANCEL, </if>
+				<if test="item.is_close != null">IS_CLOSE, </if>
+				<if test="item.is_delete != null">IS_DELETE, </if>
+				<if test="item.is_delete_app != null">IS_DELETE_APP, </if>
+				<if test="item.create_dt != null">CREATE_DT, </if>
+				<if test="item.pay_dt != null">PAY_DT, </if>
+				<if test="item.complete_dt != null">COMPLETE_DT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.order_num != null">ORDER_NUM, </if>
+				<if test="item.buyer_remark != null">BUYER_REMARK, </if>
+				<if test="item.seller_remark != null">SELLER_REMARK, </if>
+				<if test="item.sheng_id != null">SHENG_ID, </if>
+				<if test="item.shi_id != null">SHI_ID, </if>
+				<if test="item.qu_id != null">QU_ID, </if>
+				<if test="item.addr != null">ADDR, </if>
+				<if test="item.receiver != null">RECEIVER, </if>
+				<if test="item.receiver_tel != null">RECEIVER_TEL, </if>
+				
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.seller_id != null">#{item.seller_id}, </if>
+				<if test="item.buyer_id != null">#{item.buyer_id}, </if>
+				<if test="item.all_price != null">#{item.all_price}, </if>
+				<if test="item.all_goods_price != null">#{item.all_goods_price}, </if>
+				<if test="item.postage_price != null">#{item.postage_price}, </if>
+				<if test="item.promotion_price != null">#{item.promotion_price}, </if>
+				<if test="item.discount_price != null">#{item.discount_price}, </if>
+				<if test="item.full_discount_price != null">#{item.full_discount_price}, </if>
+				<if test="item.concession_price != null">#{item.concession_price}, </if>
+				<if test="item.real_price != null">#{item.real_price}, </if>
+				<if test="item.point != null">#{item.point}, </if>
+				<if test="item.pay_type != null">#{item.pay_type}, </if>
+				<if test="item.pay_info != null">#{item.pay_info}, </if>
+				<if test="item.is_pay != null">#{item.is_pay}, </if>
+				<if test="item.is_split != null">#{item.is_split}, </if>
+				<if test="item.is_deliver != null">#{item.is_deliver}, </if>
+				<if test="item.is_confirm != null">#{item.is_confirm}, </if>
+				<if test="item.is_evaluate != null">#{item.is_evaluate}, </if>
+				<if test="item.is_cancel != null">#{item.is_cancel}, </if>
+				<if test="item.is_close != null">#{item.is_close}, </if>
+				<if test="item.is_delete != null">#{item.is_delete}, </if>
+				<if test="item.is_delete_app != null">#{item.is_delete_app}, </if>
+				<if test="item.create_dt != null">#{item.create_dt}, </if>
+				<if test="item.pay_dt != null">#{item.pay_dt}, </if>
+				<if test="item.complete_dt != null">#{item.complete_dt}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.order_num != null">#{item.order_num}, </if>
+				<if test="item.buyer_remark != null">#{item.buyer_remark}, </if>
+				<if test="item.seller_remark != null">#{item.seller_remark}, </if>
+				<if test="item.sheng_id != null">#{item.sheng_id}, </if>
+				<if test="item.shi_id != null">#{item.shi_id}, </if>
+				<if test="item.qu_id != null">#{item.qu_id}, </if>
+				<if test="item.addr != null">#{item.addr}, </if>
+				<if test="item.receiver != null">#{item.receiver}, </if>
+				<if test="item.receiver_tel != null">#{item.receiver_tel}, </if>
+				 
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

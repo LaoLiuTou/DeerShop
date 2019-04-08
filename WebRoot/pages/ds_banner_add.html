@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>新建轮播图</title>
+
+
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+
+    <link href="css/upload/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="js/upload/themes/explorer-fa/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="css/font-awesome-4.7.0/css/font-awesome.css" media="all" rel="stylesheet" type="text/css"/><!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+           <a href=""><img src="images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <!--<a href=""><img src="images/logo_icon.png" alt=""></a>-->
+        </div>
+        <!--logo and iconic logo end-->
+
+
+        <div class="left-side-inner">
+
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li id="menu1" ><a href="index.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
+
+                <li id="menu2" class="menu-list"><a href=""><i class="fa fa-cogs"></i> <span>用户管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li id="menu2-1"><a href="ds_user_list.html">用户管理</a></li>
+                        <li id="menu2-2"><a href="ds_buyer_list.html">会员管理</a></li>
+                    </ul>
+                </li>
+
+                <li id="menu3" class="menu-list active"><a href=""><i class="fa fa-desktop"></i> <span>电商管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li id="menu3-1" class="active"><a href="ds_banner_list.html">轮播图管理</a></li>
+                        <li id="menu3-2"><a href="ds_category_list.html">分类管理</a></li>
+                        <li id="menu3-3"><a href="ds_news_list.html">资讯设置</a></li>
+                        <li id="menu3-4"><a href="ds_goods_list.html">商品管理</a></li>
+                        <li id="menu3-5"><a href="ds_seller_list.html">商户管理</a></li>
+                        <li id="menu3-6" ><a href="ds_order_list.html">订单管理</a></li>
+                        <li id="menu3-7"><a href="ds_cash_list.html">提现管理</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <!--<form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="请输入您要搜索的内容..." />
+            </form>-->
+            <!--search end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            <span id="loginName"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <!--<li><a href="#"><i class="fa fa-user"></i>  个人信息</a></li>-->
+                            <li><a href="#" id="changePwd"  data-toggle="modal" data-target="#changepwd-box"><i class="fa fa-cog"></i>修改密码</a></li>
+                            <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> 退出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">电商管理</a>
+                </li>
+                <li>
+                    <a href="#" onclick="window.history.go(-1)">轮播图管理</a>
+                </li>
+                <li class="active">新建轮播图</li>
+            </ul>
+
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--statistics start-->
+
+
+                    <!--表格开始-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    新建轮播图
+                                </header>
+                                <div class="panel-body">
+                                    <form class="form-horizontal adminex-form" id="addForm" >
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">图片</label>
+                                            <div class="col-sm-9">
+                                                <div class="file-loading">
+                                                    <input id="files" type="file" name="files" multiple>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">图片描述</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="img_desc" rows="6" class="form-control"></textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">关联商品</label>
+                                            <div class="col-sm-9">
+                                                <select id="goods_id"   class="form-control">
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 pdnone mb10">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info popovers" id="addBtn" >保存</button>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </div>
+                    <!--表格结束-->
+                    <!--statistics end-->
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            版权所有 ©
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+
+
+<!-- modal -->
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--image upload-->
+<script src="js/upload/plugins/sortable.js" type="text/javascript"></script>
+<script src="js/upload/fileinput.js" type="text/javascript"></script>
+<script src="js/upload/locales/zh.js" type="text/javascript"></script>
+<script src="js/upload/themes/explorer-fa/theme.js" type="text/javascript"></script>
+<script src="js/upload/themes/fa/theme.js" type="text/javascript"></script>
+
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--multi-select-->
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.quicksearch.js"></script>
+
+
+<script src="js/main/config.js"></script>
+<script src="js/main/md5.js"></script>
+<script src="js/main/ds_banner.js"></script>
+<script>
+
+
+    var params={};
+    var image;
+    $(document).ready(function(){
+        $('#files').fileinput({
+            theme: 'fa',
+            language: 'zh',
+            uploadAsync: true,//异步上传
+            uploadUrl: uploadUrl+'filesUpload',
+            allowedFileExtensions: ['jpg', 'png', 'gif','mp4'],
+            showUpload: true,
+            showCaption: false,
+            showRemove : false, //显示移除按钮
+            enctype: 'multipart/form-data',
+            maxFileSize:0,
+            maxFileCount:1,
+            dropZoneTitle: '拖拽文件到这里 &hellip;',
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
+        }).on("filebatchselected", function(event, files) {
+            //$(this).fileinput("upload");
+        }).on("fileuploaded", function(event,data, previewId, index) { //异步上传成功结果处理
+            if(data.response.data.length>0){
+                image=data.response.data[0];
+            }
+        }).on('filesuccessremove', function (event, previewId,index) {
+            image='';
+        });
+
+        //商品
+        allGoods();
+
+        //add
+        $('#addBtn').click(function () {
+            if(image==''||image==null){
+                alert('图片不能为空！');
+                return false;
+            }
+            params['img']=image;
+            params['img_desc']=$('#img_desc').val();
+            params['goods_id']=$('#goods_id').val();
+            addBanner(params);
+        });
+
+
+
+    });
+
+</script>
+</body>
+</html>

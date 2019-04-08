@@ -1,0 +1,156 @@
+<html lang="zh-cn">
+<head>
+
+<title>My JSP 'index.jsp' starting page</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+<script src="js/md5.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#start").click(function() {
+
+			var params = new Array();
+			var params1 = new Array();
+			var temp = {};
+			var temp2 = {};
+			temp['goods_id'] = '222';
+			params1.push(temp);
+			temp2['seller_id'] = '111';
+			temp2['order_item'] = params1;
+			params.push(temp2);
+			console.log(JSON.stringify(params));
+
+			var data = new Array();
+			$.ajax({
+				//url:'http://192.168.1.144/DeerFarm/addDeer',
+				//url:'http://192.168.1.144/DeerFarm/muladdKeep',
+				//url:'http://192.168.1.144/DeerShop/newsGoods',
+				//url:'http://192.168.1.144/DeerShop/listCart',
+				//url:'http://192.168.1.144/DeerShop/groupCart',
+				//url:'http://192.168.1.144/DeerShop/updateOrdersByOrdernum',
+				//url:'http://192.168.1.144/DeerShop/loginSeller',
+				//url:'http://192.168.1.144/DeerShop/addSeller',
+				//url:'http://192.168.1.144/DeerShop/allGoods',
+				//url:'http://192.168.1.8:8666/DeerShop/selectNews',
+				//url:'http://192.168.1.144/DeerShop/listArea',
+				//url:'http://192.168.1.144/DeerShop/getPayId',
+				///url:'http://192.168.1.144/DeerShop/selectOrders',
+				//url:'http://192.168.1.144/DeerShop/selectOrdersApp',
+				url : 'http://39.98.202.100/DeerShop/selectOrdersApp',
+				//url:'http://192.168.1.144/DeerShop/selectCash_apply',
+				//http://39.98.202.100/DeerShop/selectCash_apply?id=9
+				data : {
+					'id' : '9'
+				},
+				//data : {'id':'5','cash_type':'自动提现','cash_deal_id':'1'}, 
+				/* url:'http://192.168.1.144/DeerShop/addCash_apply',
+				 data : {'seller_id':'1','price':'2.02','cash_info':'{"card_num":"卡号","bank":"银行","card_name":"持卡人名"}','cash_price':'2.00',
+				 'cash_service':'0.02','cash_rate':'0.008'},   */
+
+				//data : {'c_id':'1','seller_id':'1','card_num':'6210810940001378989','bank':'建设银行','card_name':'姓名','status':'1'}, 
+
+				//url:'http://192.168.1.144/DeerShop/remindOrders',
+				//data : {'order_id':'1','seller_id':'1','order_num':'111111'},
+				//url:'http://192.168.1.144/DeerShop/treeGoods_category',
+				//url:'http://192.168.1.144/DeerShop/listOrders',
+				//data : {'id':'91','is_delete':'Y','page':'1','size':'20'},
+				// data : {'order_ids':'1,2,10'}, 
+				//data : {'id':'13','is_close':'Y'}, 
+				//url:'http://192.168.1.144/DeerShop/updatePayByPayId',
+				//data : {'pay_id':'2018110716203612332630688','status':'1'}, 
+				//data : {'page':'1','size':'20'}, 
+				//data : {'id':'30'}, 
+				//data : {'order_num':'00000010','pay_type':'微信','is_pay':'1','status':'已支付'}, 
+				//url:'http://192.168.1.144/DeerShop/muladdOrders',
+				//data : JSON.stringify([{"c_id": 1,"seller_id": 1,"buyer_id": 1,"order_item": [{"goods_id": 5,"amount": 1,"sell_price": "16.00"}]} ]), 
+				//contentType:"application/json",   
+				//url:'http://192.168.1.144/DeerShop/selectOrders',
+				//data : {'id':'1'}, 
+				//data : {'shop_tel':'1310000001','pwd':'123456','shop_name':'test',······}, 
+				//data : {'shop_tel':'13100000001','pwd':'075d147f214b5b64e10adc3949ba59ab'}, 
+				//data : {'page':'1','size':'5','seller_id':'1','id':'1'}, 
+				//data : {'buyer_id':'1'}, 
+				//data : {'goods_name':'商品111','img':'["http://123.img",http://234.img]',.....}, 
+				//data: {"news_id":"1","status":"1"},   
+				//data : {'house_id':'111','birthday':'2018-04-28','mating_dt':'2018-04-28 12:22:20','rule_id':'1','rule':'{"15":"1","16":"8","17":"10","18":"2018-04-28","19":""}'},
+				//data : JSON.stringify([{'house_id':'1','keep_flg':'10'},{'house_id':'11','keep_flg':'101'}]),
+				//headers: { 'content-Type': 'application/json' },
+				type : "POST",
+				headers : {
+					'source' : 'xcx'
+				},
+
+				success : function(response) {
+					console.log(response);
+					$("#token").text(JSON.stringify(response));
+
+				},
+				error : function(response) {
+					alert("wrong");
+				}
+			});
+		});
+
+	});
+</script>
+</head>
+
+<body>
+	TOKEN:
+	<div id="token"></div>
+	RESULT:
+	<div id="result"></div>
+	<input type="button" id="start" value="测试">
+
+</body>
+</html>
+
+电商资产模块 1、查询 可提现、提现中、冻结的金额
+url:'http://192.168.1.8:8666/DeerShop/selectSeller', data :
+{'id':'商家id'}, all_income--总收入 no_clear_income--冻结收入 cash--已提现金额
+can_cash--可提现金额 cashing--提现中金额 2、绑定银行卡
+url:'http://192.168.1.8:8666/DeerShop/addSeller_card', data :
+{'c_id':'商家id','seller_id':'商家id','card_num':'卡号（需要校验）','bank':'银行','card_name':'姓名','status':'1'},
+
+3、解绑银行卡 url:'http://192.168.1.8:8666/DeerShop/updateSeller_card', data :
+{'id':'商家id','status':'0'}, 4、收入明细列表：查询条件（收入、支出或全部）（日期：年月）
+查询结果：订单编号、收入&支出金额、时间，还有判断订单状态的字段
+url:'http://192.168.1.8:8666/DeerShop/listIncome_dtl', data :
+{'page':'1','size':'20','seller_id':'商家id','operate_dtFrom':'2018-12-19','operate_dtTo':'2018-12-19'，'income_type':'收入'},
+operate_dtFrom,operate_dtTo,income_type不是必须参数 num--编号
+orders_id--订单、退款、提现 id income_type--收入/支出 income_item--订单收入/提现/退款
+price--金额 operate_dt--日期 5、已提现总金额 用户信息中有这个值 6、提现记录列表
+查询结果：银行名称、提现状态、时间、金额
+url:'http://192.168.1.8:8666/DeerShop/listCash_apply', data :
+{'page':'1','size':'20','seller_id':'商家id'},
+cash_info--是一个json对象{"card_num":"卡号","bank":"银行","card_name":"持卡人名"}
+需要从里面取银行名称 cash_status--提现状态 cash_st_dt--申请时间 price--总金额 7、提现记录详情
+查询结果：提现金额、提现银行、提现状态、流水号、申请时间、手续费
+url:'http://192.168.1.8:8666/DeerShop/selectCash_apply', data :
+{'id':'提现记录id'}, price--总金额
+cash_info--是一个json对象{"card_num":"卡号","bank":"银行","card_name":"持卡人名"}
+需要从里面取银行名称 cash_status--提现状态 cash_code--流水号 cash_st_dt--申请时间
+cash_service--手续费 8、已绑定银行卡列表
+url:'http://192.168.1.8:8666/DeerShop/listSeller_card', data :
+{'page':'1','size':'20','seller_id':'商家id'},
+9、查询费率、可提现金额（如果不能一起查可以俩接口）--用户信息中有这个值
+url:'http://192.168.1.8:8666/DeerShop/getCashrate', data : {}, 9、提现动作
+url:'http://192.168.1.8:8666/DeerShop/addCash_apply', data :
+{'seller_id':'商家id','price':'总金额','cash_info':'{"card_num":"卡号","bank":"银行","card_name":"持卡人名"}','cash_price':'提现金额',
+'cash_service':'提现收费','cash_rate':'提现费率'}, 总金额=提现金额+提现收费;提现收费=总金额*提现费率
+新建提现时price，cash_price，cash_service两位小数
+
+
+
+接口地址:http://123.172.128.5/DeerShop
+后台地址:http://123.172.128.5/DeerShop/pages/login.html (admin/123456)
+推送地址：123.172.120.60:8870 文件上传地址：http://123.172.128.7:8088/FileUS
+支付平台:http://123.172.128.5/PayPlatform

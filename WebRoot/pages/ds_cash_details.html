@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>查看提现</title>
+
+
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+
+    <link href="css/upload/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="js/upload/themes/explorer-fa/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="css/font-awesome-4.7.0/css/font-awesome.css" media="all" rel="stylesheet" type="text/css"/><!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link rel="stylesheet" href="js/viewer/css/viewer.min.css">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+           <a href=""><img src="images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <!--<a href=""><img src="images/logo_icon.png" alt=""></a>-->
+        </div>
+        <!--logo and iconic logo end-->
+
+
+        <div class="left-side-inner">
+
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li id="menu1" ><a href="index.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
+
+                <li id="menu2" class="menu-list"><a href=""><i class="fa fa-cogs"></i> <span>用户管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li id="menu2-1"><a href="ds_user_list.html">用户管理</a></li>
+                        <li id="menu2-2"><a href="ds_buyer_list.html">会员管理</a></li>
+                    </ul>
+                </li>
+
+                <li id="menu3" class="menu-list active"><a href=""><i class="fa fa-desktop"></i> <span>电商管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li id="menu3-1" ><a href="ds_banner_list.html">轮播图管理</a></li>
+                        <li id="menu3-2"><a href="ds_category_list.html">分类管理</a></li>
+                        <li id="menu3-3"><a href="ds_news_list.html">资讯设置</a></li>
+                        <li id="menu3-4"><a href="ds_goods_list.html">商品管理</a></li>
+                        <li id="menu3-5" ><a href="ds_seller_list.html">商户管理</a></li>
+                        <li id="menu3-6"><a href="ds_order_list.html">订单管理</a></li>
+                        <li id="menu3-7" class="active"><a href="ds_cash_list.html">提现管理</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <!--<form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="请输入您要搜索的内容..." />
+            </form>-->
+            <!--search end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            <span id="loginName"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <!--<li><a href="#"><i class="fa fa-user"></i>  个人信息</a></li>-->
+                            <li><a href="#" id="changePwd"  data-toggle="modal" data-target="#changepwd-box"><i class="fa fa-cog"></i>修改密码</a></li>
+                            <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> 退出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">提现管理</a>
+                </li>
+                <li>
+                    <a href="#" onclick="window.history.go(-1)">提现管理</a>
+                </li>
+                <li class="active">查看提现</li>
+            </ul>
+
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--statistics start-->
+
+
+                    <!--表格开始-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    查看提现
+                                    <span class="tools pull-right " >
+                                         <button type="button" class="btn btn-info popovers hide" data-toggle="modal" data-target="#update-box" id="updateCash_apply">处理</button>
+                                    </span>
+                                </header>
+                                <div class="panel-body">
+                                    <form class="form-horizontal adminex-form" id="addForm" >
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">流水号：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="cash_code"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">发起时间：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="cash_st_dt"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hide" id="deal_date_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">处理时间：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="deal_date"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">处理状态：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="cash_status"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">店铺名称：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="shop_name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-sm-2 control-label">联系电话：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="shop_tel"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hide" id="card_num_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">银行卡号：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="card_num"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hide" id="card_name_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">持卡人：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="card_name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hide" id="wechat_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">微信：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="wechat"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label class="col-sm-2 col-sm-2 control-label">提现金额：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="price"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group " >
+                                            <label class="col-sm-2 col-sm-2 control-label">实际提现金额：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="cash_price"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hide" id="cash_type_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">提现方式：</label>
+                                            <div class="col-sm-9">
+                                                <span class="help-block" id="cash_type"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group hide" id="cash_img_div">
+                                            <label class="col-sm-2 col-sm-2 control-label">提现凭证：</label>
+                                            <div class="col-sm-9 ">
+                                                <div class="activity-desk">
+                                                    <div class="album">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </div>
+                    <!--表格结束-->
+                    <!--statistics end-->
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            版权所有 ©
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="update-box" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">提现处理</h4>
+            </div>
+            <div class="modal-body">
+                <label>提现信息</label>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-sm-3 ">收款渠道：</label>
+                        <label class="col-sm-9 " id="update_receive_type"></label>
+                    </div>
+                    <div class="col-md-12 hide" id="update_card_num_div">
+                        <label class="col-sm-3 ">银行卡号：</label>
+                        <label class="col-sm-9 " id="update_card_num"></label>
+                    </div>
+                    <div class="col-md-12 hide" id="update_card_name_div">
+                        <label class="col-sm-3 ">持卡人：</label>
+                        <label class="col-sm-9 " id="update_card_name"></label>
+                    </div>
+                    <div class="col-md-12 hide" id="update_wechat_div">
+                        <label class="col-sm-3 ">微信：</label>
+                        <label class="col-sm-9 " id="update_wechat"></label>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-sm-3 ">流水号：</label>
+                        <label class="col-sm-9 " id="update_cash_code"></label>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-sm-3 ">实际提现金额：</label>
+                        <label class="col-sm-9 " id="update_cash_price"></label>
+                    </div>
+                </div>
+                <div class="hide" id="file_div">
+                    <label>凭证</label>
+                    <input id="files" type="file" name="files" >
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                <button class="btn btn-info popovers" type="button" id="updateBtn">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--image upload-->
+<script src="js/upload/plugins/sortable.js" type="text/javascript"></script>
+<script src="js/upload/fileinput.js" type="text/javascript"></script>
+<script src="js/upload/locales/zh.js" type="text/javascript"></script>
+<script src="js/upload/themes/explorer-fa/theme.js" type="text/javascript"></script>
+<script src="js/upload/themes/fa/theme.js" type="text/javascript"></script>
+
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--multi-select-->
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.quicksearch.js"></script>
+
+<script src="js/viewer/js/viewer-jquery.min.js"></script>
+<script src="js/main/config.js"></script>
+<script src="js/main/md5.js"></script>
+<script src="js/main/ds_cash.js"></script>
+<script>
+    var imagesArray= new Array();
+    $(document).ready(function(){
+        selectCash_apply(GetQueryString('id'));
+        //修改
+        $('#updateCash_apply').click(function () {
+            //cash_applyIndex=$(this).attr('index');
+            //currentCash_apply=cash_applyList[cash_applyIndex];
+            $('#update_cash_code').text(currentCash_apply.cash_code);
+            $('#update_cash_price').text(currentCash_apply.cash_price);
+            var cash_info = JSON.parse(currentCash_apply.cash_info);
+            if(cash_info.hasOwnProperty("open_id")){
+                $('#file_div').addClass("hide");
+                $('#update_wechat_div').removeClass("hide");
+                $('#update_wechat').text(cash_info.wechat);
+                $('#update_receive_type').text('微信');
+            }
+            else{
+                $('#file_div').removeClass("hide");
+                $('#update_card_num_div').removeClass("hide");
+                $('#update_card_name_div').removeClass("hide");
+                $('#update_card_num').text(cash_info.card_num);
+                $('#update_card_name').text(cash_info.card_name);
+                $('#update_receive_type').text('银行卡');
+            }
+
+        });
+        $('#updateBtn').click(function () {
+            var bodyParam={'id':currentCash_apply.id};
+            var userinfo = JSON.parse(sessionStorage.getItem('userinfo'));
+
+            var cash_info = JSON.parse(currentCash_apply.cash_info);
+            if(cash_info.hasOwnProperty("open_id")){
+                bodyParam["cash_deal_id"]=userinfo['id'];
+                bodyParam["cash_type"]="企业付款到微信";
+                payToWechat(bodyParam);
+
+            }
+            else{
+                if(imagesArray.length==0){
+                    alert('请上传凭证图片！');
+                    return false;
+                }
+                function compare(property){
+                    return function(a,b){
+                        var value1 = a[property];
+                        var value2 = b[property];
+                        return value1 - value2;
+                    }
+                }
+                var tempimage=imagesArray.sort(compare('index'));
+                var images=new Array();
+                for (var i = 0; i < tempimage.length; i++) {
+                    images.push(tempimage[i].image);
+                }
+                bodyParam["cash_deal_id"]=userinfo['id'];
+                bodyParam["cash_type"]="线下提现";
+                bodyParam["cash_img"]=JSON.stringify(images);
+                offlinePay(bodyParam);
+            }
+        });
+
+
+
+        //图片上传
+        $('#files').fileinput({
+            theme: 'fa',
+            language: 'zh',
+            uploadAsync: true,//异步上传
+            uploadUrl: uploadUrl+'filesUpload',
+            allowedFileExtensions: ['jpg', 'png', 'gif','mp4'],
+            showUpload: true,
+            showCaption: false,
+            showRemove : false, //显示移除按钮
+            enctype: 'multipart/form-data',
+            maxFileSize:0,
+            maxFileCount:4,
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
+
+
+        }).on("filebatchselected", function(event, files) {
+            //$(this).fileinput("upload");
+        }).on("fileuploaded", function(event,data, previewId, index) { //异步上传成功结果处理
+            //console.log(JSON.stringify(data.response));
+            //console.log(previewId);
+            //console.log(index);
+            if(data.response.data.length>0){
+                imagesArray.push({'index':index,'image':data.response.data[0]});
+            }
+
+
+        }).on('filesuccessremove', function (event, previewId,index) {
+            /*console.log(JSON.stringify(event));
+            console.log(previewId);
+            console.log(index);*/
+            for (var i = 0; i < imagesArray.length; i++) {
+                if (imagesArray[i].index== index) {
+                    imagesArray.remove(imagesArray[i]);
+                }
+            }
+        });
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+    });
+
+</script>
+</body>
+</html>

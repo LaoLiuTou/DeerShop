@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.goods_category.IGoods_categoryMapper"> 
+	<select id="selectgoods_categoryById" parameterType="String" resultType="Goods_category">
+		SELECT * FROM goods_category WHERE ID=#{id}
+	</select>
+	<select id="selectgoods_categoryByPid" parameterType="String" resultType="Goods_category">
+		SELECT * FROM goods_category WHERE PID=#{pid} ORDER BY seq ASC
+	</select>
+
+	<delete id="deletegoods_category" parameterType="String"> 
+		DELETE FROM goods_category WHERE ID=#{id}
+	</delete>
+	<delete id="deletegoods_categoryByPid" parameterType="String"> 
+		DELETE FROM goods_category WHERE PID=#{pid}
+	</delete>
+
+	<select id="selectgoods_categoryByParam" parameterType="java.util.Map" resultType="Goods_category">
+		SELECT *
+		FROM goods_category
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="pid != null"> AND PID =#{pid} </if>
+			<if test="ctg_name != null"> AND CTG_NAME =#{ctg_name} </if>
+			<if test="effect != null"> AND EFFECT =#{effect} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="pidisnull != null">AND PID IS NULL </if>
+			<if test="pidisnotnull != null">AND PID IS NOT NULL </if>
+			<if test="seq != null">AND SEQ =#{up_dt} </if>
+			<if test="deer_flag != null">AND DEER_FLAG =#{deer_flag} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   ${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountgoods_categoryByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM goods_category 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="pid != null"> AND PID =#{pid} </if>
+			<if test="ctg_name != null"> AND CTG_NAME =#{ctg_name} </if>
+			<if test="effect != null"> AND EFFECT =#{effect} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="pidisnull != null">AND PID IS NULL </if>
+			<if test="pidisnotnull != null">AND PID IS NOT NULL </if>
+			<if test="seq != null">AND SEQ =#{up_dt} </if>
+			<if test="deer_flag != null">AND DEER_FLAG =#{deer_flag} </if>
+		</trim>  
+	</select>
+
+	<update id="updategoods_category" parameterType="Goods_category">
+		UPDATE goods_category 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="pid != null">PID=#{pid}, </if>
+			<if test="ctg_name != null">CTG_NAME=#{ctg_name}, </if>
+			<if test="effect != null">EFFECT=#{effect}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="seq != null">SEQ=#{seq}, </if>
+			<if test="img != null">IMG=#{img}, </if>
+			<if test="deer_flag != null">DEER_FLAG=#{deer_flag}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+	<update id="updategoods_categorydeer" parameterType="Goods_category">
+		UPDATE goods_category 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="pid != null">PID=#{pid}, </if>
+			<if test="ctg_name != null">CTG_NAME=#{ctg_name}, </if>
+			<if test="effect != null">EFFECT=#{effect}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="seq != null">SEQ=#{seq}, </if>
+			<if test="img != null">IMG=#{img}, </if>
+			<if test="deer_flag != null">DEER_FLAG=#{deer_flag}, </if>
+		</trim>
+	</update>
+	<insert id="addgoods_category" parameterType="Goods_category" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO goods_category 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="pid != null">PID, </if>
+			<if test="ctg_name != null">CTG_NAME, </if>
+			<if test="effect != null">EFFECT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="seq != null">SEQ, </if>
+			<if test="img != null">IMG, </if>
+			<if test="deer_flag != null">DEER_FLAG, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="pid != null">#{pid}, </if>
+			<if test="ctg_name != null">#{ctg_name}, </if>
+			<if test="effect != null">#{effect}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="seq != null">#{seq}, </if>
+			<if test="img != null">#{img}, </if>
+			<if test="deer_flag != null">#{deer_flag}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdgoods_category" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO goods_category 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.pid != null">PID, </if>
+				<if test="item.ctg_name != null">CTG_NAME, </if>
+				<if test="item.effect != null">EFFECT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.seq != null">SEQ, </if>
+				<if test="item.img != null">IMG, </if>
+				<if test="item.deer_flag != null">DEER_FLAG, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.pid != null">#{item.pid}, </if>
+				<if test="item.ctg_name != null">#{item.ctg_name}, </if>
+				<if test="item.effect != null">#{item.effect}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.seq != null">#{item.seq}, </if>
+				<if test="item.img != null">#{item.img}, </if>
+				<if test="item.deer_flag != null">#{item.deer_flag}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

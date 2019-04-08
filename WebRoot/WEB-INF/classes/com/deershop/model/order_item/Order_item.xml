@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.order_item.IOrder_itemMapper"> 
+	<select id="selectorder_itemById" parameterType="String" resultType="Order_item">
+		SELECT * FROM order_item WHERE ID=#{id}
+	</select>
+
+	<delete id="deleteorder_item" parameterType="String"> 
+		DELETE FROM order_item WHERE ID=#{id}
+	</delete>
+
+	<select id="selectorder_itemByParam" parameterType="java.util.Map" resultType="Order_item">
+		SELECT a.*,b.goods_name as goods_name,b.img as img ,b.goods_num as goods_num 
+		FROM order_item a 
+		LEFT JOIN goods b on a.goods_id= b.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="c_id != null"> AND a.C_ID =#{c_id} </if>
+			<if test="orders_id != null"> AND a.ORDERS_ID =#{orders_id} </if>
+			<if test="goods_id != null"> AND a.GOODS_ID =#{goods_id} </if>
+			<if test="point != null"> AND a.POINT =#{point} </if>
+			<if test="discount_id != null"> AND a.DISCOUNT_ID =#{discount_id} </if>
+			<if test="promotion_id != null"> AND a.PROMOTION_ID =#{promotion_id} </if>
+			<if test="full_id != null"> AND a.FULL_ID =#{full_id} </if>
+			<if test="amount != null"> AND a.AMOUNT =#{amount} </if>
+			<if test="sell_price != null"> AND a.SELL_PRICE =#{sell_price} </if>
+			<if test="real_price != null"> AND a.REAL_PRICE =#{real_price} </if>
+			<if test="discount_price != null"> AND a.DISCOUNT_PRICE =#{discount_price} </if>
+			<if test="full_discount_price != null"> AND a.FULL_DISCOUNT_PRICE =#{full_discount_price} </if>
+			<if test="concession_price != null"> AND a.CONCESSION_PRICE =#{concession_price} </if>
+			<if test="promotion_price != null"> AND a.PROMOTION_PRICE =#{promotion_price} </if>
+			<if test="is_deliver != null"> AND a.IS_DELIVER =#{is_deliver} </if>
+			<if test="status != null"> AND a.STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(a.CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(a.CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND a.CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(a.UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(a.UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND a.UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountorder_itemByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM order_item 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="orders_id != null"> AND ORDERS_ID =#{orders_id} </if>
+			<if test="goods_id != null"> AND GOODS_ID =#{goods_id} </if>
+			<if test="point != null"> AND POINT =#{point} </if>
+			<if test="discount_id != null"> AND DISCOUNT_ID =#{discount_id} </if>
+			<if test="promotion_id != null"> AND PROMOTION_ID =#{promotion_id} </if>
+			<if test="full_id != null"> AND FULL_ID =#{full_id} </if>
+			<if test="amount != null"> AND AMOUNT =#{amount} </if>
+			<if test="sell_price != null"> AND SELL_PRICE =#{sell_price} </if>
+			<if test="real_price != null"> AND REAL_PRICE =#{real_price} </if>
+			<if test="discount_price != null"> AND DISCOUNT_PRICE =#{discount_price} </if>
+			<if test="full_discount_price != null"> AND FULL_DISCOUNT_PRICE =#{full_discount_price} </if>
+			<if test="concession_price != null"> AND CONCESSION_PRICE =#{concession_price} </if>
+			<if test="promotion_price != null"> AND PROMOTION_PRICE =#{promotion_price} </if>
+			<if test="is_deliver != null"> AND IS_DELIVER =#{is_deliver} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updateorder_item" parameterType="Order_item">
+		UPDATE order_item 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="orders_id != null">ORDERS_ID=#{orders_id}, </if>
+			<if test="goods_id != null">GOODS_ID=#{goods_id}, </if>
+			<if test="point != null">POINT=#{point}, </if>
+			<if test="discount_id != null">DISCOUNT_ID=#{discount_id}, </if>
+			<if test="promotion_id != null">PROMOTION_ID=#{promotion_id}, </if>
+			<if test="full_id != null">FULL_ID=#{full_id}, </if>
+			<if test="amount != null">AMOUNT=#{amount}, </if>
+			<if test="sell_price != null">SELL_PRICE=#{sell_price}, </if>
+			<if test="real_price != null">REAL_PRICE=#{real_price}, </if>
+			<if test="discount_price != null">DISCOUNT_PRICE=#{discount_price}, </if>
+			<if test="full_discount_price != null">FULL_DISCOUNT_PRICE=#{full_discount_price}, </if>
+			<if test="concession_price != null">CONCESSION_PRICE=#{concession_price}, </if>
+			<if test="promotion_price != null">PROMOTION_PRICE=#{promotion_price}, </if>
+			<if test="is_deliver != null">IS_DELIVER=#{is_deliver}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addorder_item" parameterType="Order_item" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO order_item 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="orders_id != null">ORDERS_ID, </if>
+			<if test="goods_id != null">GOODS_ID, </if>
+			<if test="point != null">POINT, </if>
+			<if test="discount_id != null">DISCOUNT_ID, </if>
+			<if test="promotion_id != null">PROMOTION_ID, </if>
+			<if test="full_id != null">FULL_ID, </if>
+			<if test="amount != null">AMOUNT, </if>
+			<if test="sell_price != null">SELL_PRICE, </if>
+			<if test="real_price != null">REAL_PRICE, </if>
+			<if test="discount_price != null">DISCOUNT_PRICE, </if>
+			<if test="full_discount_price != null">FULL_DISCOUNT_PRICE, </if>
+			<if test="concession_price != null">CONCESSION_PRICE, </if>
+			<if test="promotion_price != null">PROMOTION_PRICE, </if>
+			<if test="is_deliver != null">IS_DELIVER, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="orders_id != null">#{orders_id}, </if>
+			<if test="goods_id != null">#{goods_id}, </if>
+			<if test="point != null">#{point}, </if>
+			<if test="discount_id != null">#{discount_id}, </if>
+			<if test="promotion_id != null">#{promotion_id}, </if>
+			<if test="full_id != null">#{full_id}, </if>
+			<if test="amount != null">#{amount}, </if>
+			<if test="sell_price != null">#{sell_price}, </if>
+			<if test="real_price != null">#{real_price}, </if>
+			<if test="discount_price != null">#{discount_price}, </if>
+			<if test="full_discount_price != null">#{full_discount_price}, </if>
+			<if test="concession_price != null">#{concession_price}, </if>
+			<if test="promotion_price != null">#{promotion_price}, </if>
+			<if test="is_deliver != null">#{is_deliver}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdorder_item" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO order_item 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.orders_id != null">ORDERS_ID, </if>
+				<if test="item.goods_id != null">GOODS_ID, </if>
+				<if test="item.point != null">POINT, </if>
+				<if test="item.discount_id != null">DISCOUNT_ID, </if>
+				<if test="item.promotion_id != null">PROMOTION_ID, </if>
+				<if test="item.full_id != null">FULL_ID, </if>
+				<if test="item.amount != null">AMOUNT, </if>
+				<if test="item.sell_price != null">SELL_PRICE, </if>
+				<if test="item.real_price != null">REAL_PRICE, </if>
+				<if test="item.discount_price != null">DISCOUNT_PRICE, </if>
+				<if test="item.full_discount_price != null">FULL_DISCOUNT_PRICE, </if>
+				<if test="item.concession_price != null">CONCESSION_PRICE, </if>
+				<if test="item.promotion_price != null">PROMOTION_PRICE, </if>
+				<if test="item.is_deliver != null">IS_DELIVER, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.orders_id != null">#{item.orders_id}, </if>
+				<if test="item.goods_id != null">#{item.goods_id}, </if>
+				<if test="item.point != null">#{item.point}, </if>
+				<if test="item.discount_id != null">#{item.discount_id}, </if>
+				<if test="item.promotion_id != null">#{item.promotion_id}, </if>
+				<if test="item.full_id != null">#{item.full_id}, </if>
+				<if test="item.amount != null">#{item.amount}, </if>
+				<if test="item.sell_price != null">#{item.sell_price}, </if>
+				<if test="item.real_price != null">#{item.real_price}, </if>
+				<if test="item.discount_price != null">#{item.discount_price}, </if>
+				<if test="item.full_discount_price != null">#{item.full_discount_price}, </if>
+				<if test="item.concession_price != null">#{item.concession_price}, </if>
+				<if test="item.promotion_price != null">#{item.promotion_price}, </if>
+				<if test="item.is_deliver != null">#{item.is_deliver}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

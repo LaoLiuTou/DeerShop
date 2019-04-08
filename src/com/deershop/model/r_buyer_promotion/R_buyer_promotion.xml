@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.r_buyer_promotion.IR_buyer_promotionMapper"> 
+	<select id="selectr_buyer_promotionById" parameterType="String" resultType="R_buyer_promotion">
+		SELECT * FROM r_buyer_promotion WHERE ID=#{id}
+	</select>
+
+	<delete id="deleter_buyer_promotion" parameterType="String"> 
+		DELETE FROM r_buyer_promotion WHERE ID=#{id}
+	</delete>
+
+	<select id="selectr_buyer_promotionByParam" parameterType="java.util.Map" resultType="R_buyer_promotion">
+		SELECT *
+		FROM r_buyer_promotion
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="buyer_id != null"> AND BUYER_ID =#{buyer_id} </if>
+			<if test="promotion_id != null"> AND PROMOTION_ID =#{promotion_id} </if>
+			<if test="receive_type != null"> AND RECEIVE_TYPE =#{receive_type} </if>
+			<if test="receive_dtFrom != null"> AND unix_timestamp(RECEIVE_DT) &gt;=unix_timestamp(#{receive_dtFrom}) </if>
+			<if test="receive_dtTo != null"> AND unix_timestamp(RECEIVE_DT) &lt;=unix_timestamp(#{receive_dtTo}) </if>
+			<if test="receive_dt != null"> AND RECEIVE_DT =#{receive_dt} </if>
+			<if test="use_dtFrom != null"> AND unix_timestamp(USE_DT) &gt;=unix_timestamp(#{use_dtFrom}) </if>
+			<if test="use_dtTo != null"> AND unix_timestamp(USE_DT) &lt;=unix_timestamp(#{use_dtTo}) </if>
+			<if test="use_dt != null"> AND USE_DT =#{use_dt} </if>
+			<if test="use_status != null"> AND USE_STATUS =#{use_status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountr_buyer_promotionByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM r_buyer_promotion 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="buyer_id != null"> AND BUYER_ID =#{buyer_id} </if>
+			<if test="promotion_id != null"> AND PROMOTION_ID =#{promotion_id} </if>
+			<if test="receive_type != null"> AND RECEIVE_TYPE =#{receive_type} </if>
+			<if test="receive_dtFrom != null"> AND unix_timestamp(RECEIVE_DT) &gt;=unix_timestamp(#{receive_dtFrom}) </if>
+			<if test="receive_dtTo != null"> AND unix_timestamp(RECEIVE_DT) &lt;=unix_timestamp(#{receive_dtTo}) </if>
+			<if test="receive_dt != null"> AND RECEIVE_DT =#{receive_dt} </if>
+			<if test="use_dtFrom != null"> AND unix_timestamp(USE_DT) &gt;=unix_timestamp(#{use_dtFrom}) </if>
+			<if test="use_dtTo != null"> AND unix_timestamp(USE_DT) &lt;=unix_timestamp(#{use_dtTo}) </if>
+			<if test="use_dt != null"> AND USE_DT =#{use_dt} </if>
+			<if test="use_status != null"> AND USE_STATUS =#{use_status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+		</trim>  
+	</select>
+
+	<update id="updater_buyer_promotion" parameterType="R_buyer_promotion">
+		UPDATE r_buyer_promotion 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="buyer_id != null">BUYER_ID=#{buyer_id}, </if>
+			<if test="promotion_id != null">PROMOTION_ID=#{promotion_id}, </if>
+			<if test="receive_type != null">RECEIVE_TYPE=#{receive_type}, </if>
+			<if test="receive_dt != null">RECEIVE_DT=#{receive_dt}, </if>
+			<if test="use_dt != null">USE_DT=#{use_dt}, </if>
+			<if test="use_status != null">USE_STATUS=#{use_status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addr_buyer_promotion" parameterType="R_buyer_promotion" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO r_buyer_promotion 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="buyer_id != null">BUYER_ID, </if>
+			<if test="promotion_id != null">PROMOTION_ID, </if>
+			<if test="receive_type != null">RECEIVE_TYPE, </if>
+			<if test="receive_dt != null">RECEIVE_DT, </if>
+			<if test="use_dt != null">USE_DT, </if>
+			<if test="use_status != null">USE_STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="buyer_id != null">#{buyer_id}, </if>
+			<if test="promotion_id != null">#{promotion_id}, </if>
+			<if test="receive_type != null">#{receive_type}, </if>
+			<if test="receive_dt != null">#{receive_dt}, </if>
+			<if test="use_dt != null">#{use_dt}, </if>
+			<if test="use_status != null">#{use_status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdr_buyer_promotion" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO r_buyer_promotion 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.buyer_id != null">BUYER_ID, </if>
+				<if test="item.promotion_id != null">PROMOTION_ID, </if>
+				<if test="item.receive_type != null">RECEIVE_TYPE, </if>
+				<if test="item.receive_dt != null">RECEIVE_DT, </if>
+				<if test="item.use_dt != null">USE_DT, </if>
+				<if test="item.use_status != null">USE_STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.buyer_id != null">#{item.buyer_id}, </if>
+				<if test="item.promotion_id != null">#{item.promotion_id}, </if>
+				<if test="item.receive_type != null">#{item.receive_type}, </if>
+				<if test="item.receive_dt != null">#{item.receive_dt}, </if>
+				<if test="item.use_dt != null">#{item.use_dt}, </if>
+				<if test="item.use_status != null">#{item.use_status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

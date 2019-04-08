@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.system_message.ISystem_messageMapper"> 
+	<select id="selectsystem_messageById" parameterType="String" resultType="System_message">
+		SELECT * FROM system_message WHERE ID=#{id}
+	</select>
+
+	<delete id="deletesystem_message" parameterType="String"> 
+		DELETE FROM system_message WHERE ID=#{id}
+	</delete>
+
+	<select id="selectsystem_messageByParam" parameterType="java.util.Map" resultType="System_message">
+		SELECT *
+		FROM system_message
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="sendee_id != null"> AND SENDEE_ID =#{sendee_id} </if>
+			<if test="message_type != null"> AND MESSAGE_TYPE =#{message_type} </if>
+			<if test="sendee_type != null"> AND SENDEE_TYPE =#{sendee_type} </if>
+			<if test="title != null"> AND TITLE =#{title} </if>
+			<if test="message_content != null"> AND MESSAGE_CONTENT =#{message_content} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="order_id != null"> AND ORDER_ID =#{order_id} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountsystem_messageByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM system_message 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="sendee_id != null"> AND SENDEE_ID =#{sendee_id} </if>
+			<if test="message_type != null"> AND MESSAGE_TYPE =#{message_type} </if>
+			<if test="sendee_type != null"> AND SENDEE_TYPE =#{sendee_type} </if>
+			<if test="title != null"> AND TITLE =#{title} </if>
+			<if test="message_content != null"> AND MESSAGE_CONTENT =#{message_content} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="order_id != null"> AND ORDER_ID =#{order_id} </if>
+		</trim>  
+	</select>
+
+	<update id="updatesystem_message" parameterType="System_message">
+		UPDATE system_message 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="sendee_id != null">SENDEE_ID=#{sendee_id}, </if>
+			<if test="message_type != null">MESSAGE_TYPE=#{message_type}, </if>
+			<if test="sendee_type != null">SENDEE_TYPE=#{sendee_type}, </if>
+			<if test="title != null">TITLE=#{title}, </if>
+			<if test="message_content != null">MESSAGE_CONTENT=#{message_content}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="order_id != null">ORDER_ID=#{order_id}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addsystem_message" parameterType="System_message" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO system_message 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="sendee_id != null">SENDEE_ID, </if>
+			<if test="message_type != null">MESSAGE_TYPE, </if>
+			<if test="sendee_type != null">SENDEE_TYPE, </if>
+			<if test="title != null">TITLE, </if>
+			<if test="message_content != null">MESSAGE_CONTENT, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="order_id != null">ORDER_ID, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="sendee_id != null">#{sendee_id}, </if>
+			<if test="message_type != null">#{message_type}, </if>
+			<if test="sendee_type != null">#{sendee_type}, </if>
+			<if test="title != null">#{title}, </if>
+			<if test="message_content != null">#{message_content}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="order_id != null">#{order_id}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdsystem_message" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO system_message 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.sendee_id != null">SENDEE_ID, </if>
+				<if test="item.message_type != null">MESSAGE_TYPE, </if>
+				<if test="item.sendee_type != null">SENDEE_TYPE, </if>
+				<if test="item.title != null">TITLE, </if>
+				<if test="item.message_content != null">MESSAGE_CONTENT, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.order_id != null">ORDER_ID, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.sendee_id != null">#{item.sendee_id}, </if>
+				<if test="item.message_type != null">#{item.message_type}, </if>
+				<if test="item.sendee_type != null">#{item.sendee_type}, </if>
+				<if test="item.title != null">#{item.title}, </if>
+				<if test="item.message_content != null">#{item.message_content}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.order_id != null">#{item.order_id}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

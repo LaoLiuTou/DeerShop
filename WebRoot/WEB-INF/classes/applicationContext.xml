@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc/jdbc.properties"/>
+</bean>
+<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="${driverClassName}"/>
+	<property name="url" value="${url}"/>
+	<property name="username" value="${username}"/>
+	<property name="password" value="${password}"/>
+</bean>-->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName"><value>${driverClassName}</value></property>
+	<property name="url"><value>${url}</value></property> 
+	<property name="username"><value>${username}</value></property>
+	<property name="password"><value>${password}</value></property>
+	<property name="maxActive"><value>255</value></property> 
+	<property name="maxIdle"><value>100</value></property>
+	<property name="maxWait"><value>120000</value></property>
+</bean>
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="configLocation"><value>classpath:Configuration.xml</value></property>
+	<property name="dataSource"><ref bean="dataSource"/></property>
+ </bean>
+<bean id="sqlSessionTemplate_app" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg index="0" ref="sqlSessionFactory" />
+</bean>
+<!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入 -->
+<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+<!-- 配置事务管理器 -->
+<bean id="transactionManager"
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+	p:dataSource-ref="dataSource">
+</bean>
+<!-- 配置多个事务管理器 -->
+<!--<bean id="tran_1"
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+	p:dataSource-ref="dataSource">
+	<qualifier value="tran_1"/>
+</bean>
+@Transactional("tran_1")
+-->
+<!-- enables scanning for @Transactional annotations -->
+<tx:annotation-driven transaction-manager="transactionManager"/>
+<bean id="iAreaMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.area.IAreaMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iAreaService" class="com.deershop.service.area.AreaServiceImpl"></bean>
+<bean id="iBuyerMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.buyer.IBuyerMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iBuyerService" class="com.deershop.service.buyer.BuyerServiceImpl"></bean>
+<bean id="iBuyer_addrMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.buyer_addr.IBuyer_addrMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iBuyer_addrService" class="com.deershop.service.buyer_addr.Buyer_addrServiceImpl"></bean>
+<bean id="iCartMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.cart.ICartMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iCartService" class="com.deershop.service.cart.CartServiceImpl"></bean>
+<bean id="iComplainMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.complain.IComplainMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iComplainService" class="com.deershop.service.complain.ComplainServiceImpl"></bean>
+<bean id="iDiscountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.discount.IDiscountMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iDiscountService" class="com.deershop.service.discount.DiscountServiceImpl"></bean>
+<bean id="iEvaluateMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.evaluate.IEvaluateMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iEvaluateService" class="com.deershop.service.evaluate.EvaluateServiceImpl"></bean>
+<bean id="iFull_discountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.full_discount.IFull_discountMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iFull_discountService" class="com.deershop.service.full_discount.Full_discountServiceImpl"></bean>
+<bean id="iGoodsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.goods.IGoodsMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iGoodsService" class="com.deershop.service.goods.GoodsServiceImpl"></bean>
+<bean id="iGoods_categoryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.goods_category.IGoods_categoryMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iGoods_categoryService" class="com.deershop.service.goods_category.Goods_categoryServiceImpl"></bean>
+<bean id="iGoods_messageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.goods_message.IGoods_messageMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iGoods_messageService" class="com.deershop.service.goods_message.Goods_messageServiceImpl"></bean>
+<bean id="iNewsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.news.INewsMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iNewsService" class="com.deershop.service.news.NewsServiceImpl"></bean>
+<bean id="iOrder_itemMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.order_item.IOrder_itemMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iOrder_itemService" class="com.deershop.service.order_item.Order_itemServiceImpl"></bean>
+<bean id="iOrdersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.orders.IOrdersMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iOrdersService" class="com.deershop.service.orders.OrdersServiceImpl"></bean>
+<bean id="iPostageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.postage.IPostageMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iPostageService" class="com.deershop.service.postage.PostageServiceImpl"></bean>
+<bean id="iPromotion_codeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.promotion_code.IPromotion_codeMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iPromotion_codeService" class="com.deershop.service.promotion_code.Promotion_codeServiceImpl"></bean>
+<bean id="iR_buyer_promotionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.r_buyer_promotion.IR_buyer_promotionMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iR_buyer_promotionService" class="com.deershop.service.r_buyer_promotion.R_buyer_promotionServiceImpl"></bean>
+<bean id="iR_goods_discountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.r_goods_discount.IR_goods_discountMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iR_goods_discountService" class="com.deershop.service.r_goods_discount.R_goods_discountServiceImpl"></bean>
+<bean id="iR_goods_fullMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.r_goods_full.IR_goods_fullMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iR_goods_fullService" class="com.deershop.service.r_goods_full.R_goods_fullServiceImpl"></bean>
+<bean id="iR_goods_promotionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.r_goods_promotion.IR_goods_promotionMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iR_goods_promotionService" class="com.deershop.service.r_goods_promotion.R_goods_promotionServiceImpl"></bean>
+<bean id="iR_news_goodsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.r_news_goods.IR_news_goodsMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iR_news_goodsService" class="com.deershop.service.r_news_goods.R_news_goodsServiceImpl"></bean>
+<bean id="iReturnsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.returns.IReturnsMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iReturnsService" class="com.deershop.service.returns.ReturnsServiceImpl"></bean>
+<bean id="iSaveMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.save.ISaveMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iSaveService" class="com.deershop.service.save.SaveServiceImpl"></bean>
+<bean id="iSellerMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.seller.ISellerMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iSellerService" class="com.deershop.service.seller.SellerServiceImpl"></bean>
+<bean id="iSendMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.send.ISendMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iSendService" class="com.deershop.service.send.SendServiceImpl"></bean>
+<bean id="iSystem_messageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.system_message.ISystem_messageMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iSystem_messageService" class="com.deershop.service.system_message.System_messageServiceImpl"></bean>
+<bean id="iBannerMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.banner.IBannerMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iBannerService" class="com.deershop.service.banner.BannerServiceImpl"></bean>
+<bean id="iUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.user.IUserMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iUserService" class="com.deershop.service.user.UserServiceImpl"></bean>
+<bean id="iOrder_numMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.order_num.IOrder_numMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iOrder_numService" class="com.deershop.service.order_num.Order_numServiceImpl"></bean>
+<bean id="iPayMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.pay.IPayMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iPayService" class="com.deershop.service.pay.PayServiceImpl"></bean>
+<bean id="iLovMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.lov.ILovMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iLovService" class="com.deershop.service.lov.LovServiceImpl"></bean>
+<bean id="iCash_applyMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.cash_apply.ICash_applyMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iCash_applyService" class="com.deershop.service.cash_apply.Cash_applyServiceImpl"></bean>
+<bean id="iSeller_cardMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.seller_card.ISeller_cardMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iSeller_cardService" class="com.deershop.service.seller_card.Seller_cardServiceImpl"></bean>
+<bean id="iIncome_dtlMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.deershop.dao.income_dtl.IIncome_dtlMapper "/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+<bean id="iIncome_dtlService" class="com.deershop.service.income_dtl.Income_dtlServiceImpl"></bean>
+</beans>

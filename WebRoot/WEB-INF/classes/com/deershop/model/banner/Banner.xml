@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.banner.IBannerMapper"> 
+	<select id="selectbannerById" parameterType="String" resultType="Banner">
+		SELECT * FROM banner WHERE ID=#{id}
+	</select>
+
+	<delete id="deletebanner" parameterType="String"> 
+		DELETE FROM banner WHERE ID=#{id}
+	</delete>
+
+	<select id="selectbannerByParam" parameterType="java.util.Map" resultType="Banner">
+		SELECT a.*,b.goods_name as goods_name  
+		FROM banner a 
+		LEFT JOIN goods b ON a.goods_id=b.id 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND a.ID =#{id} </if>
+			<if test="goods_id != null"> AND a.GOODS_ID =#{goods_id} </if>
+			<if test="img != null"> AND a.IMG =#{img} </if>
+			<if test="img_desc != null"> AND a.IMG_DESC =#{img_desc} </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   a.${orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountbannerByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(ID) 
+		FROM banner 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="goods_id != null"> AND GOODS_ID =#{goods_id} </if>
+			<if test="img != null"> AND IMG =#{img} </if>
+			<if test="img_desc != null"> AND IMG_DESC =#{img_desc} </if>
+		</trim>  
+	</select>
+
+	<update id="updatebanner" parameterType="Banner">
+		UPDATE banner 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="goods_id != null">GOODS_ID=#{goods_id}, </if>
+			<if test="img != null">IMG=#{img}, </if>
+			<if test="img_desc != null">IMG_DESC=#{img_desc}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addbanner" parameterType="Banner" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO banner 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="goods_id != null">GOODS_ID, </if>
+			<if test="img != null">IMG, </if>
+			<if test="img_desc != null">IMG_DESC, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="goods_id != null">#{goods_id}, </if>
+			<if test="img != null">#{img}, </if>
+			<if test="img_desc != null">#{img_desc}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdbanner" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO banner 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.goods_id != null">GOODS_ID, </if>
+				<if test="item.img != null">IMG, </if>
+				<if test="item.img_desc != null">IMG_DESC, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.goods_id != null">#{item.goods_id}, </if>
+				<if test="item.img != null">#{item.img}, </if>
+				<if test="item.img_desc != null">#{item.img_desc}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>

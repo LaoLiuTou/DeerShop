@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deershop.dao.seller.ISellerMapper"> 
+	<select id="selectsellerById" parameterType="String" resultType="Seller">
+		SELECT * FROM seller WHERE ID=#{id}
+	</select>
+
+	<delete id="deleteseller" parameterType="String"> 
+		DELETE FROM seller WHERE ID=#{id}
+	</delete>
+
+	<select id="selectsellerByParam" parameterType="java.util.Map" resultType="Seller">
+		SELECT *
+		FROM seller
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="seller_card_id != null"> AND SELLER_CARD_ID =#{seller_card_id} </if>
+			<if test="old_seller_num != null"> AND OLD_SELLER_NUM =#{old_seller_num} </if>
+			<if test="shop_name != null"> AND SHOP_NAME like #{shop_name} </if>
+			<if test="shop_desc != null"> AND SHOP_DESC =#{shop_desc} </if>
+			<if test="shop_tel != null"> AND SHOP_TEL =#{shop_tel} </if>
+			<if test="pwd != null"> AND PWD =#{pwd} </if>
+			<if test="shop_addr != null"> AND SHOP_ADDR =#{shop_addr} </if>
+			<if test="shop_img != null"> AND SHOP_IMG =#{shop_img} </if>
+			<if test="wechat != null"> AND WECHAT =#{wechat} </if>
+			<if test="openid != null"> AND OPENID =#{openid} </if>
+			<if test="return_info != null"> AND RETURN_INFO =#{return_info} </if>
+			<if test="all_income != null"> AND ALL_INCOME =#{all_income} </if>
+			<if test="no_clear_income != null"> AND NO_CLEAR_INCOME =#{no_clear_income} </if>
+			<if test="cash != null"> AND CASH =#{cash} </if>
+			<if test="can_cash != null"> AND CAN_CASH =#{can_cash} </if>
+			<if test="cashing != null"> AND CASHING =#{cashing} </if>
+			<if test="caution_money != null"> AND CAUTION_MONEY =#{caution_money} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="audit_mem_id != null"> AND AUDIT_MEM_ID =#{audit_mem_id} </if>
+			<if test="audit_status != null"> AND AUDIT_STATUS =#{audit_status} </if>
+			<if test="is_order_notice != null"> AND IS_ORDER_NOTICE =#{is_order_notice} </if>
+			<if test="business_license != null"> AND BUSINESS_LICENSE =#{business_license} </if>
+			<if test="reject_reason != null"> AND REJECT_REASON =#{reject_reason} </if>
+			<if test="search != null"> AND CONCAT(CONCAT(SHOP_NAME,''),' ',CONCAT(SHOP_TEL,'')) like '%${search}%' </if>
+		</trim>  
+			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
+		LIMIT #{fromPage},#{toPage} 
+	</select>
+
+	<select id="selectCountsellerByParam" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(id) 
+		FROM seller 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null"> AND ID =#{id} </if>
+			<if test="c_id != null"> AND C_ID =#{c_id} </if>
+			<if test="seller_card_id != null"> AND SELLER_CARD_ID =#{seller_card_id} </if>
+			<if test="old_seller_num != null"> AND OLD_SELLER_NUM =#{old_seller_num} </if>
+			<if test="shop_name != null"> AND SHOP_NAME like #{shop_name} </if>
+			<if test="shop_desc != null"> AND SHOP_DESC =#{shop_desc} </if>
+			<if test="shop_tel != null"> AND SHOP_TEL =#{shop_tel} </if>
+			<if test="pwd != null"> AND PWD =#{pwd} </if>
+			<if test="shop_addr != null"> AND SHOP_ADDR =#{shop_addr} </if>
+			<if test="shop_img != null"> AND SHOP_IMG =#{shop_img} </if>
+			<if test="wechat != null"> AND WECHAT =#{wechat} </if>
+			<if test="openid != null"> AND OPENID =#{openid} </if>
+			<if test="return_info != null"> AND RETURN_INFO =#{return_info} </if>
+			<if test="all_income != null"> AND ALL_INCOME =#{all_income} </if>
+			<if test="no_clear_income != null"> AND NO_CLEAR_INCOME =#{no_clear_income} </if>
+			<if test="cash != null"> AND CASH =#{cash} </if>
+			<if test="can_cash != null"> AND CAN_CASH =#{can_cash} </if>
+			<if test="cashing != null"> AND CASHING =#{cashing} </if>
+			<if test="caution_money != null"> AND CAUTION_MONEY =#{caution_money} </if>
+			<if test="status != null"> AND STATUS =#{status} </if>
+			<if test="cd_dtFrom != null"> AND unix_timestamp(CD_DT) &gt;=unix_timestamp(#{cd_dtFrom}) </if>
+			<if test="cd_dtTo != null"> AND unix_timestamp(CD_DT) &lt;=unix_timestamp(#{cd_dtTo}) </if>
+			<if test="cd_dt != null"> AND CD_DT =#{cd_dt} </if>
+			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
+			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
+			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="audit_mem_id != null"> AND AUDIT_MEM_ID =#{audit_mem_id} </if>
+			<if test="audit_status != null"> AND AUDIT_STATUS =#{audit_status} </if>
+			<if test="is_order_notice != null"> AND IS_ORDER_NOTICE =#{is_order_notice} </if>
+			<if test="business_license != null"> AND BUSINESS_LICENSE =#{business_license} </if>
+			<if test="reject_reason != null"> AND REJECT_REASON =#{reject_reason} </if>
+			<if test="search != null"> AND CONCAT(CONCAT(SHOP_NAME,''),' ',CONCAT(SHOP_TEL,'')) like '%${search}%' </if>
+		</trim>  
+	</select>
+
+	<update id="updateseller" parameterType="Seller">
+		UPDATE seller 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null">ID=#{id}, </if>
+			<if test="c_id != null">C_ID=#{c_id}, </if>
+			<if test="seller_card_id != null">SELLER_CARD_ID=#{seller_card_id}, </if>
+			<if test="old_seller_num != null">OLD_SELLER_NUM=#{old_seller_num}, </if>
+			<if test="shop_name != null">SHOP_NAME=#{shop_name}, </if>
+			<if test="shop_desc != null">SHOP_DESC=#{shop_desc}, </if>
+			<if test="shop_tel != null">SHOP_TEL=#{shop_tel}, </if>
+			<if test="pwd != null">PWD=#{pwd}, </if>
+			<if test="shop_addr != null">SHOP_ADDR=#{shop_addr}, </if>
+			<if test="shop_img != null">SHOP_IMG=#{shop_img}, </if>
+			<if test="wechat != null">WECHAT=#{wechat}, </if>
+			<if test="openid != null">OPENID=#{openid}, </if>
+			<if test="return_info != null">RETURN_INFO=#{return_info}, </if>
+			<if test="all_income != null">ALL_INCOME=#{all_income}, </if>
+			<if test="no_clear_income != null">NO_CLEAR_INCOME=#{no_clear_income}, </if>
+			<if test="cash != null">CASH=#{cash}, </if>
+			<if test="can_cash != null">CAN_CASH=#{can_cash}, </if>
+			<if test="cashing != null">CASHING=#{cashing}, </if>
+			<if test="caution_money != null">CAUTION_MONEY=#{caution_money}, </if>
+			<if test="status != null">STATUS=#{status}, </if>
+			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
+			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="audit_mem_id != null">AUDIT_MEM_ID=#{audit_mem_id}, </if>
+			<if test="audit_status != null">AUDIT_STATUS=#{audit_status}, </if>
+			<if test="is_order_notice != null">IS_ORDER_NOTICE=#{is_order_notice}, </if>
+			<if test="business_license != null">BUSINESS_LICENSE=#{business_license}, </if>
+			<if test="reject_reason != null">REJECT_REASON=#{reject_reason}, </if>
+		</trim>
+		WHERE ID=#{id}
+	</update>
+
+	<insert id="addseller" parameterType="Seller" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO seller 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">C_ID, </if>
+			<if test="seller_card_id != null">SELLER_CARD_ID, </if>
+			<if test="old_seller_num != null">OLD_SELLER_NUM, </if>
+			<if test="shop_name != null">SHOP_NAME, </if>
+			<if test="shop_desc != null">SHOP_DESC, </if>
+			<if test="shop_tel != null">SHOP_TEL, </if>
+			<if test="pwd != null">PWD, </if>
+			<if test="shop_addr != null">SHOP_ADDR, </if>
+			<if test="shop_img != null">SHOP_IMG, </if>
+			<if test="wechat != null">WECHAT, </if>
+			<if test="openid != null">OPENID, </if>
+			<if test="return_info != null">RETURN_INFO, </if>
+			<if test="all_income != null">ALL_INCOME, </if>
+			<if test="no_clear_income != null">NO_CLEAR_INCOME, </if>
+			<if test="cash != null">CASH, </if>
+			<if test="can_cash != null">CAN_CASH, </if>
+			<if test="cashing != null">CASHING, </if>
+			<if test="caution_money != null">CAUTION_MONEY, </if>
+			<if test="status != null">STATUS, </if>
+			<if test="cd_dt != null">CD_DT, </if>
+			<if test="up_dt != null">UP_DT, </if>
+			<if test="audit_mem_id != null">AUDIT_MEM_ID, </if>
+			<if test="audit_status != null">AUDIT_STATUS, </if>
+			<if test="is_order_notice != null">IS_ORDER_NOTICE, </if>
+			<if test="business_license != null">BUSINESS_LICENSE, </if>
+			<if test="reject_reason != null">REJECT_REASON, </if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+			<if test="c_id != null">#{c_id}, </if>
+			<if test="seller_card_id != null">#{seller_card_id}, </if>
+			<if test="old_seller_num != null">#{old_seller_num}, </if>
+			<if test="shop_name != null">#{shop_name}, </if>
+			<if test="shop_desc != null">#{shop_desc}, </if>
+			<if test="shop_tel != null">#{shop_tel}, </if>
+			<if test="pwd != null">#{pwd}, </if>
+			<if test="shop_addr != null">#{shop_addr}, </if>
+			<if test="shop_img != null">#{shop_img}, </if>
+			<if test="wechat != null">#{wechat}, </if>
+			<if test="openid != null">#{openid}, </if>
+			<if test="return_info != null">#{return_info}, </if>
+			<if test="all_income != null">#{all_income}, </if>
+			<if test="no_clear_income != null">#{no_clear_income}, </if>
+			<if test="cash != null">#{cash}, </if>
+			<if test="can_cash != null">#{can_cash}, </if>
+			<if test="cashing != null">#{cashing}, </if>
+			<if test="caution_money != null">#{caution_money}, </if>
+			<if test="status != null">#{status}, </if>
+			<if test="cd_dt != null">#{cd_dt}, </if>
+			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="audit_mem_id != null">#{audit_mem_id}, </if>
+			<if test="audit_status != null">#{audit_status}, </if>
+			<if test="is_order_notice != null">#{is_order_notice}, </if>
+			<if test="business_license != null">#{business_license}, </if>
+			<if test="reject_reason != null">#{reject_reason}, </if>
+		</trim>
+	</insert>
+
+	<insert id="muladdseller" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			INSERT INTO seller 
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">ID, </if>
+				<if test="item.c_id != null">C_ID, </if>
+				<if test="item.seller_card_id != null">SELLER_CARD_ID, </if>
+				<if test="item.old_seller_num != null">OLD_SELLER_NUM, </if>
+				<if test="item.shop_name != null">SHOP_NAME, </if>
+				<if test="item.shop_desc != null">SHOP_DESC, </if>
+				<if test="item.shop_tel != null">SHOP_TEL, </if>
+				<if test="item.pwd != null">PWD, </if>
+				<if test="item.shop_addr != null">SHOP_ADDR, </if>
+				<if test="item.shop_img != null">SHOP_IMG, </if>
+				<if test="item.wechat != null">WECHAT, </if>
+				<if test="item.openid != null">OPENID, </if>
+				<if test="item.return_info != null">RETURN_INFO, </if>
+				<if test="item.all_income != null">ALL_INCOME, </if>
+				<if test="item.no_clear_income != null">NO_CLEAR_INCOME, </if>
+				<if test="item.cash != null">CASH, </if>
+				<if test="item.can_cash != null">CAN_CASH, </if>
+				<if test="item.cashing != null">CASHING, </if>
+				<if test="item.caution_money != null">CAUTION_MONEY, </if>
+				<if test="item.status != null">STATUS, </if>
+				<if test="item.cd_dt != null">CD_DT, </if>
+				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.audit_mem_id != null">AUDIT_MEM_ID, </if>
+				<if test="item.audit_status != null">AUDIT_STATUS, </if>
+				<if test="item.is_order_notice != null">IS_ORDER_NOTICE, </if>
+				<if test="item.business_license != null">BUSINESS_LICENSE, </if>
+				<if test="item.reject_reason != null">REJECT_REASON, </if>
+			</trim>
+			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+				<if test="item.id != null">#{item.id}, </if>
+				<if test="item.c_id != null">#{item.c_id}, </if>
+				<if test="item.seller_card_id != null">#{item.seller_card_id}, </if>
+				<if test="item.old_seller_num != null">#{item.old_seller_num}, </if>
+				<if test="item.shop_name != null">#{item.shop_name}, </if>
+				<if test="item.shop_desc != null">#{item.shop_desc}, </if>
+				<if test="item.shop_tel != null">#{item.shop_tel}, </if>
+				<if test="item.pwd != null">#{item.pwd}, </if>
+				<if test="item.shop_addr != null">#{item.shop_addr}, </if>
+				<if test="item.shop_img != null">#{item.shop_img}, </if>
+				<if test="item.wechat != null">#{item.wechat}, </if>
+				<if test="item.openid != null">#{item.openid}, </if>
+				<if test="item.return_info != null">#{item.return_info}, </if>
+				<if test="item.all_income != null">#{item.all_income}, </if>
+				<if test="item.no_clear_income != null">#{item.no_clear_income}, </if>
+				<if test="item.cash != null">#{item.cash}, </if>
+				<if test="item.can_cash != null">#{item.can_cash}, </if>
+				<if test="item.cashing != null">#{item.cashing}, </if>
+				<if test="item.caution_money != null">#{item.caution_money}, </if>
+				<if test="item.status != null">#{item.status}, </if>
+				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
+				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.audit_mem_id != null">#{item.audit_mem_id}, </if>
+				<if test="item.audit_status != null">#{item.audit_status}, </if>
+				<if test="item.is_order_notice != null">#{item.is_order_notice}, </if>
+				<if test="item.business_license != null">#{item.business_license}, </if>
+				<if test="item.reject_reason != null">#{item.reject_reason}, </if>
+			</trim>
+		</foreach>
+	</insert>
+</mapper>
