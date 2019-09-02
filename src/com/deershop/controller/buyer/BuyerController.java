@@ -174,6 +174,10 @@ public class BuyerController {
 				paramMap.put("up_dtFrom", sdf.parse(up_dtFrom));
 				if(up_dtTo!=null&&!up_dtTo.equals(""))
 				paramMap.put("up_dtTo", sdf.parse(up_dtTo));
+				
+				paramMap.put("sex",buyer.getSex());
+				paramMap.put("id_code",buyer.getId_code());
+				
 				List<Buyer> list=iBuyerService.selectBuyerByParam(paramMap);
 				int totalnumber=iBuyerService.selectCountBuyerByParam(paramMap);
 				Map tempMap=new HashMap();

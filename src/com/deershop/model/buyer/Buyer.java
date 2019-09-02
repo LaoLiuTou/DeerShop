@@ -92,5 +92,29 @@ public class Buyer {
 	}
 
 
+	private String sex;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private  Date birth_d;
+	private String id_code;
+	 
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public Date getBirth_d() {
+		return birth_d;
+	}
+	public void setBirth_d(Date birth_d) {
+		this.birth_d = birth_d;
+	}
+	public String getId_code() {
+		return id_code;
+	}
+	public void setId_code(String id_code) {
+		this.id_code = id_code;
+	}
+
 
 }

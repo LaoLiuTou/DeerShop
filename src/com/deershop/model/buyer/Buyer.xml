@@ -30,6 +30,9 @@
 			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
 			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
 			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="sex != null"> AND SEX =#{sex} </if>
+			<if test="birth_d != null"> AND BIRTH_D =#{birth_d} </if>
+			<if test="id_code != null"> AND ID_CODE =#{id_code} </if>
 		</trim>  
 			<if test="orderBy!= null"> ORDER BY   #{orderBy} </if>
 		LIMIT #{fromPage},#{toPage} 
@@ -55,6 +58,9 @@
 			<if test="up_dtFrom != null"> AND unix_timestamp(UP_DT) &gt;=unix_timestamp(#{up_dtFrom}) </if>
 			<if test="up_dtTo != null"> AND unix_timestamp(UP_DT) &lt;=unix_timestamp(#{up_dtTo}) </if>
 			<if test="up_dt != null"> AND UP_DT =#{up_dt} </if>
+			<if test="sex != null"> AND SEX =#{sex} </if>
+			<if test="birth_d != null"> AND BIRTH_D =#{birth_d} </if>
+			<if test="id_code != null"> AND ID_CODE =#{id_code} </if>
 		</trim>  
 	</select>
 
@@ -71,6 +77,9 @@
 			<if test="status != null">STATUS=#{status}, </if>
 			<if test="cd_dt != null">CD_DT=#{cd_dt}, </if>
 			<if test="up_dt != null">UP_DT=#{up_dt}, </if>
+			<if test="sex != null">SEX=#{sex}, </if>
+			<if test="birth_d != null">BIRTH_D=#{birth_d}, </if>
+			<if test="id_code != null">ID_CODE=#{id_code}, </if>
 		</trim>
 		WHERE ID=#{id}
 	</update>
@@ -87,6 +96,9 @@
 			<if test="status != null">STATUS, </if>
 			<if test="cd_dt != null">CD_DT, </if>
 			<if test="up_dt != null">UP_DT, </if>
+			<if test="sex != null">SEX, </if>
+			<if test="birth_d != null">BIRTH_D, </if>
+			<if test="id_code != null">ID_CODE, </if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 			<if test="c_id != null">#{c_id}, </if>
@@ -98,6 +110,9 @@
 			<if test="status != null">#{status}, </if>
 			<if test="cd_dt != null">#{cd_dt}, </if>
 			<if test="up_dt != null">#{up_dt}, </if>
+			<if test="sex != null">#{sex}, </if>
+			<if test="birth_d != null">#{birth_d}, </if>
+			<if test="id_code != null">#{id_code}, </if>
 		</trim>
 	</insert>
 
@@ -116,6 +131,7 @@
 				<if test="item.status != null">STATUS, </if>
 				<if test="item.cd_dt != null">CD_DT, </if>
 				<if test="item.up_dt != null">UP_DT, </if>
+				<if test="item.sex != null">SEX, </if>
 			</trim>
 			<trim prefix="VALUES (" suffix=")" suffixOverrides="," >
 				<if test="item.id != null">#{item.id}, </if>
@@ -128,6 +144,7 @@
 				<if test="item.status != null">#{item.status}, </if>
 				<if test="item.cd_dt != null">#{item.cd_dt}, </if>
 				<if test="item.up_dt != null">#{item.up_dt}, </if>
+				<if test="item.sex != null">#{item.sex}, </if>
 			</trim>
 		</foreach>
 	</insert>
